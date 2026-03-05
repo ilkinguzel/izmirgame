@@ -67,7 +67,7 @@ button.answer:hover { transform: scale(1.08); background: #444; }
 <button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Oyna</button>
 
 <script>
-// --- 40 soruluk havuz ---
+// --- 36 soruluk güncellenmiş havuz ---
 let allQuestions = [
   {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
   {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -83,11 +83,9 @@ let allQuestions = [
   {q:"İzmir'in meşhur deniz kenarı sokağı?",answers:["Kordon","İstiklal","Bağdat","Atatürk"],correct:0},
   {q:"İzmir'in simgesi olan saat kulesi hangi yıl yapılmış?",answers:["1901","1907","1910","1923"],correct:1},
   {q:"Çeşme hangi ilçeye bağlı?",answers:["Karşıyaka","Konak","Çeşme","Bornova"],correct:2},
-  {q:"İzmir'in meşhur tatlısı?",answers:["Baklava","Şambali","Künefe","Sütlaç"],correct:1},
   {q:"İzmir hangi denize kıyısı vardır?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
   {q:"İzmir'in sembolü olan kuş hangisidir?",answers:["Martı","Güvercin","Serçe","Karga"],correct:0},
   {q:"Karşıyaka'nın rengi hangi renktir?",answers:["Kırmızı","Siyah","Mavi","Yeşil"],correct:2},
-  {q:"İzmir hangi ülkeye aittir?",answers:["Yunanistan","Türkiye","İtalya","Fransa"],correct:1},
   {q:"İzmir Limanı hangi ilçe sınırındadır?",answers:["Karşıyaka","Konak","Buca","Bornova"],correct:1},
   {q:"İzmir hangi yıl deprem yaşamıştır?",answers:["1925","1939","1970","1999"],correct:3},
   {q:"İzmir'in meşhur pazarı?",answers:["Kemeralti","Kapalıçarşı","Mısır Çarşısı","Grand Bazaar"],correct:0},
@@ -99,7 +97,6 @@ let allQuestions = [
   {q:"İzmir hangi dağlarla çevrilidir?",answers:["Kazdağları","Bozdağlar","Toroslar","Uludağ"],correct:1},
   {q:"İzmir'in meşhur simidi hangi isimle anılır?",answers:["Simit","Gevrek","Açma","Poğaça"],correct:1},
   {q:"İzmir hangi liman kenti ile ünlüdür?",answers:["İstanbul","Mersin","İzmir","Trabzon"],correct:2},
-  {q:"İzmir'in nüfusu yaklaşık kaçtır?",answers:["1 milyon","2 milyon","4 milyon","5 milyon"],correct:2},
   {q:"İzmir hangi tarihte işgalden kurtulmuştur?",answers:["1918","1920","1922","1923"],correct:2},
   {q:"İzmir'in en ünlü parkı?",answers:["Kültürpark","Göztepe Parkı","İnciraltı","Bostanlı"],correct:0},
   {q:"İzmir'in meşhur çarşısı?",answers:["Kemeralti","Kapalıçarşı","Kadıköy Çarşı","Karşıyaka Çarşı"],correct:0},
@@ -110,8 +107,7 @@ let allQuestions = [
   {q:"İzmir'in tarihi limanı hangisidir?",answers:["Alsancak Limanı","Küçük Liman","Göztepe Limanı","Foça Limanı"],correct:1},
   {q:"İzmir'in meşhur semt pazarı hangisidir?",answers:["Kemeraltı","Alsancak","Bornova","Karşıyaka"],correct:0},
   {q:"İzmir'in sembol yapısı nedir?",answers:["Saat Kulesi","Asansör","Kordon","Konak"],correct:0},
-  {q:"İzmir'de hangi spor kulübü meşhurdur?",answers:["Fenerbahçe","Beşiktaş","Göztepe","Galatasaray"],correct:2},
-  {q:"İzmir'in ünlü tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kadayıf"],correct:0}
+  {q:"İzmir'de hangi spor kulübü meşhurdur?",answers:["Fenerbahçe","Beşiktaş","Göztepe","Galatasaray"],correct:2}
 ];
 
 let remainingQuestions = [];
@@ -119,7 +115,7 @@ let current = 0;
 let score = 0;
 
 function startGame(){
-    remainingQuestions = [...allQuestions]; // tüm sorular
+    remainingQuestions = [...allQuestions];
     current = 0;
     score = 0;
     document.getElementById("score").innerText = "0 doğru";
@@ -136,7 +132,7 @@ function showQuestion(){
     }
 
     let idx = Math.floor(Math.random()*remainingQuestions.length);
-    let q = remainingQuestions.splice(idx,1)[0]; // seç ve havuzdan çıkar
+    let q = remainingQuestions.splice(idx,1)[0];
 
     let shuffledAnswers = [...q.answers].sort(()=>Math.random()-0.5);
     let correctIndex = shuffledAnswers.indexOf(q.answers[q.correct]);
