@@ -29,33 +29,6 @@ body::before {
     z-index: -1;
 }
 
-/* --- Güneş --- */
-#sun {
-    position: fixed;
-    top: 50px;
-    right: 50px;
-    width: 100px;
-    height: 100px;
-    background: yellow;
-    border-radius: 50%;
-    box-shadow: 0 0 60px 20px rgba(255,255,0,0.6);
-    z-index: 0;
-}
-
-/* --- Bulutlar --- */
-.cloud {
-    position: fixed;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    z-index: 0;
-    animation: cloudMove linear infinite;
-}
-@keyframes cloudMove {
-    0% { transform: translateX(-200px); }
-    100% { transform: translateX(120%); }
-}
-
 /* --- Başlık animasyonu --- */
 h1 {
     color: #FFD700;
@@ -218,12 +191,6 @@ button.answer:hover {
 <div id="result"></div>
 
 <button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Oyna</button>
-
-<!-- Güneş ve bulutlar -->
-<div id="sun"></div>
-<div class="cloud" style="width:120px;height:60px;top:80px;animation-duration:50s;"></div>
-<div class="cloud" style="width:180px;height:80px;top:150px;animation-duration:70s;"></div>
-<div class="cloud" style="width:100px;height:50px;top:200px;animation-duration:60s;"></div>
 
 <script>
 // --- Soru havuzu ---
