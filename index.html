@@ -138,7 +138,9 @@ button.answer:hover {
     width: 5px;
     height: 5px;
     top: 0;
-    animation: fall 1s linear forwards;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 9999;
 }
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity:1; }
@@ -220,7 +222,7 @@ function answer(i){
     if(i===q.correct){
         score++;
         buttons[i].classList.add("correct");
-        confetti();
+        confetti();  // yeni efekt
     }else{
         buttons[i].classList.add("wrong");
         buttons[q.correct].classList.add("correct");
@@ -267,17 +269,32 @@ function restartGame(){
     startGame();
 }
 
-// --- Confetti efekti ---
+// --- Yeni confetti efekti ---
 function confetti(){
-    for(let i=0;i<20;i++){
+    for(let i=0;i<40;i++){
         let c=document.createElement("div");
         c.className="confetti";
-        c.style.left=Math.random()*window.innerWidth+"px";
-        c.style.width = (5 + Math.random()*5) + "px";
-        c.style.height = (5 + Math.random()*5) + "px";
-        c.style.background=["yellow","white","blue","pink","orange","lime"][Math.floor(Math.random()*6)];
+        let size = 5 + Math.random()*10;
+        c.style.width = size + "px";
+        c.style.height = size + "px";
+        c.style.left = Math.random()*window.innerWidth + "px";
+        c.style.background = ["yellow","white","blue","pink","orange","lime"][Math.floor(Math.random()*6)];
+        let duration = 800 + Math.random()*700; // 0.8s - 1.5s
+        let rotate = Math.random()*360;
+        c.style.transform = `rotate(${rotate}deg)`;
+        c.style.animation = `fall ${duration}ms linear forwards`;
+        // x ekseninde rastgele kayma
+        let xShift = (Math.random()-0.5)*200;
+        c.animate([
+            { transform: `translate(0px,0px) rotate(${rotate}deg)` },
+            { transform: `translate(${xShift}px,600px) rotate(${rotate+360}deg)` }
+        ], {
+            duration: duration,
+            easing: 'linear',
+            fill: 'forwards'
+        });
         document.body.appendChild(c);
-        setTimeout(()=>c.remove(),1000);
+        setTimeout(()=>c.remove(), duration);
     }
 }
 
