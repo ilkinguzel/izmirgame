@@ -1,102 +1,130 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>35'i Bul</title>
+<title>Gerçek İzmirli misin?</title>
 
 <style>
+
 body{
 background:black;
 color:white;
 font-family:Arial;
 text-align:center;
+padding:40px;
 }
 
 h1{
-color:red;
-}
-
-#grid{
-display:grid;
-grid-template-columns:repeat(10,60px);
-gap:10px;
-justify-content:center;
-margin-top:30px;
-}
-
-.number{
-background:#111;
-padding:15px;
-cursor:pointer;
-border:1px solid #444;
-}
-
-.number:hover{
-background:#333;
-}
-
-#timer{
-font-size:24px;
-margin-top:20px;
 color:#ff4444;
 }
+
+button{
+padding:12px 22px;
+margin:8px;
+background:#222;
+color:white;
+border:1px solid #444;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#444;
+}
+
+#result{
+margin-top:30px;
+font-size:24px;
+color:#ff4444;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>35'i Bul</h1>
-<p>İzmir ruhunu kanıtla 😎</p>
+<h1>Gerçek İzmirli misin?</h1>
 
-<div id="timer">0.00 saniye</div>
-
-<div id="grid"></div>
+<div id="quiz"></div>
+<div id="result"></div>
 
 <script>
 
-let startTime = Date.now()
-let gameOver = false
+let allQuestions = [
 
-let numbers = []
-for(let i=1;i<=100;i++){
-numbers.push(i)
+{q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
+{q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
+{q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
+{q:"Kordon hangi ilçede?",answers:["Konak","Buca","Bornova","Karabağlar"],correct:0},
+{q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:1},
+{q:"İzmir'in meşhur sandviçi?",answers:["Kumru","Tost","Döner","Bazlama"],correct:0},
+{q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
+{q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
+{q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
+{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
+
+{q:"Çeşme neyiyle ünlü?",answers:["Rüzgar","Kayak","Orman","Şelale"],correct:0},
+{q:"Foça hangi özelliğiyle bilinir?",answers:["Foklar","Kaplıca","Kayak","Volkan"],correct:0},
+{q:"İzmir hangi bölgede?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
+{q:"Alsancak hangi ilçede?",answers:["Konak","Karşıyaka","Buca","Bornova"],correct:0},
+{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:0}
+
+]
+
+// Soruları karıştır
+allQuestions.sort(()=>Math.random()-0.5)
+
+// İlk 10 soruyu seç
+let questions = allQuestions.slice(0,10)
+
+let current = 0
+let score = 0
+
+function showQuestion(){
+
+let q = questions[current]
+
+let html = "<h2>"+(current+1)+"/10 - "+q.q+"</h2>"
+
+q.answers.forEach((a,i)=>{
+html += `<button onclick="answer(${i})">${a}</button><br>`
+})
+
+document.getElementById("quiz").innerHTML = html
+
 }
 
-numbers.sort(()=>Math.random()-0.5)
+function answer(i){
 
-let grid = document.getElementById("grid")
+if(i == questions[current].correct){
+score++
+}
 
-numbers.forEach(num=>{
+current++
 
-let div = document.createElement("div")
-div.className="number"
-div.innerText=num
-
-div.onclick=function(){
-
-if(gameOver) return
-
-if(num==35){
-
-gameOver=true
-
-let time=((Date.now()-startTime)/1000).toFixed(2)
-
-alert("🎉 35'i buldun!\nSüre: "+time+" saniye")
-
+if(current < questions.length){
+showQuestion()
 }else{
 
-div.style.background="darkred"
+let text=""
+
+if(score>=9) text="🔥 Gerçek İzmirli!"
+else if(score>=7) text="😎 İzmir ruhu var."
+else if(score>=5) text="🙂 Yarı İzmirli."
+else text="😂 İzmir'e biraz daha gelmen lazım."
+
+document.getElementById("quiz").innerHTML=""
+document.getElementById("result").innerHTML="Sonuç: "+score+"/10<br>"+text
 
 }
 
 }
 
-grid.appendChild(div)
-
-})
+showQuestion()
 
 </script>
 
 </body>
 </html>
+```
