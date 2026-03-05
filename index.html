@@ -2,243 +2,186 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Gerçek İzmirli misin?</title>
+<title>İzmir Game</title>
 <style>
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 20px;
-  background: linear-gradient(to bottom, #1E90FF, #00BFFF);
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: red;
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
 }
 
-h1 {
-  font-size: 36px;
-  color: #FFD700;
-  text-shadow: 2px 2px 4px #000;
-  margin-bottom: 20px;
+header {
+    padding: 20px;
+    font-size: 36px;
+    font-weight: bold;
 }
 
-#score {
-  font-size: 22px;
-  background: rgba(255, 223, 0, 0.9);
-  color: black;
-  padding: 10px 20px;
-  border-radius: 25px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+footer {
+    padding: 20px;
 }
 
-#progressContainer {
-  width: 90%;
-  max-width: 500px;
-  height: 20px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  margin-bottom: 20px;
-  overflow: hidden;
+button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
-#progressBar {
-  height: 100%;
-  width: 0%;
-  background: limegreen;
-  transition: width 0.5s;
+#gameContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: auto;
 }
-
-#quiz {
-  background: rgba(0,0,0,0.6);
-  padding: 25px 30px;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-  width: 90%;
-  max-width: 500px;
-  margin-bottom: 20px;
-  position: relative;
-}
-
-#quiz button {
-  padding: 12px 20px;
-  margin: 10px 0;
-  width: 100%;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s;
-  background: #222;
-  color: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-#quiz button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #fff;
-}
-
-.correct { background: limegreen !important; color: black; animation: correctFlash 0.5s; }
-.wrong { background: red !important; color: white; animation: wrongFlash 0.5s; }
-
-@keyframes correctFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
-@keyframes wrongFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
-
-#result {
-  margin-top: 20px;
-  font-size: 22px;
-  background: rgba(255, 223, 0, 0.95);
-  color: black;
-  padding: 20px 25px;
-  border-radius: 25px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-#retryBtn {
-  margin-top: 15px;
-  padding: 12px 30px;
-  font-size: 18px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  background: #FFD700;
-  color: black;
-  font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: all 0.2s;
-}
-
-#retryBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #fff;
-}
-
-.confetti {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: #FFD700;
-  top: 0;
-  pointer-events:none;
-  animation: fall 1s linear forwards;
-}
-
-@keyframes fall {0%{transform: translateY(0) rotate(0deg);}100%{transform: translateY(600px) rotate(360deg);opacity:0;}}
 </style>
 </head>
 <body>
+<header>İzmir Game</header>
 
-<h1>Gerçek İzmirli misin?</h1>
-<div id="score">0 doğru</div>
-<div id="progressContainer"><div id="progressBar"></div></div>
-<div id="quiz"></div>
-<div id="result"></div>
-<button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Dene</button>
+<div id="gameContainer">
+    <p>1, 2 veya 3 numaralı butona basın.</p>
+</div>
+
+<footer>
+    <button onclick="loadGame(1)">1</button>
+    <button onclick="loadGame(2)">2</button>
+    <button onclick="loadGame(3)">3</button>
+</footer>
 
 <script>
-// Örnek sorular
-let allQuestions = [
-{q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
-{q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
-{q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
-{q:"Kordon hangi ilçede?",answers:["Konak","Buca","Bornova","Karabağlar"],correct:0},
-{q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:2},
-{q:"İzmir'in meşhur sandviçi?",answers:["Kumru","Tost","Döner","Bazlama"],correct:0},
-{q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
-{q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
-{q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
-{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0}
-];
+function loadGame(number) {
+    const container = document.getElementById('gameContainer');
+    container.innerHTML = ""; // Önceki içeriği temizle
 
-let questions = allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
-let current=0, score=0, answered=false, timer=null, timePerQuestion=15;
+    if(number === 1) {
+        // 1 numaralı butona basınca oyun kodu buraya geliyor
+        container.innerHTML = `
+        <div style="width:100%;max-width:600px;">
+            <h1>Gerçek İzmirli misin?</h1>
+            <div id="score">0 doğru</div>
+            <div id="progressContainer" style="width:100%;height:20px;background:rgba(255,255,255,0.2);border-radius:10px;margin-bottom:20px;overflow:hidden;">
+                <div id="progressBar" style="height:100%;width:0%;background:limegreen;transition:width 0.5s;"></div>
+            </div>
+            <div id="quiz"></div>
+            <div id="result"></div>
+            <button id="retryBtn" style="display:none;padding:12px 30px;font-size:18px;border:none;border-radius:25px;cursor:pointer;background:#FFD700;color:black;font-weight:bold;">Tekrar Dene</button>
+        </div>
 
-function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;}
+        <script>
+        let allQuestions = [
+            {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
+            {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
+            {q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
+            {q:"Kordon hangi ilçede?",answers:["Konak","Buca","Bornova","Karabağlar"],correct:0},
+            {q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:2},
+            {q:"İzmir'in meşhur sandviçi?",answers:["Kumru","Tost","Döner","Bazlama"],correct:0},
+            {q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
+            {q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
+            {q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
+            {q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0}
+        ];
 
-function showQuestion(){
-  answered=false;
-  clearInterval(timer);
-  let q=questions[current];
-  let options=q.answers.map((a,i)=>({text:a,index:i}));
-  options=shuffleArray(options);
-  let html="<h2>"+(current+1)+". Soru / 10 - "+q.q+"</h2>";
-  options.forEach((o,i)=>{html+=`<button id="btn${i}" onclick="answer(${i},${o.index},${q.correct})">${o.text}</button><br>`;});
-  html+=`<p id="time">Kalan süre: ${timePerQuestion}s</p>`;
-  document.getElementById("quiz").innerHTML=html;
-  document.getElementById("result").innerHTML="";
-  startTimer();
+        let questions = allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
+        let current=0, score=0, answered=false, timer=null, timePerQuestion=15;
+
+        function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;}
+
+        function showQuestion(){
+            answered=false;
+            clearInterval(timer);
+            let q=questions[current];
+            let options=q.answers.map((a,i)=>({text:a,index:i}));
+            options=shuffleArray(options);
+            let html="<h2>"+(current+1)+". Soru / 10 - "+q.q+"</h2>";
+            options.forEach((o,i)=>{html+=\`<button id="btn\${i}" onclick="answer(\${i},\${o.index},\${q.correct})">\${o.text}</button><br>\`;});
+            html+=\`<p id="time">Kalan süre: \${timePerQuestion}s</p>\`;
+            document.getElementById("quiz").innerHTML=html;
+            document.getElementById("result").innerHTML="";
+            startTimer();
+        }
+
+        function startTimer(){
+            let t=timePerQuestion;
+            document.getElementById("time").innerText="Kalan süre: "+t+"s";
+            timer=setInterval(()=>{
+                t--;
+                document.getElementById("time").innerText="Kalan süre: "+t+"s";
+                if(t<=0){clearInterval(timer);answer(-1,-1,questions[current].correct);}
+            },1000);
+        }
+
+        function answer(i, originalIndex, correctIndex){
+            if(answered) return;
+            answered=true;
+            clearInterval(timer);
+            let buttons=document.querySelectorAll("#quiz button");
+            if(i!==-1 && originalIndex===correctIndex){
+                score++;
+                document.getElementById("btn"+i).classList.add("correct");
+                showConfetti();
+                updateProgress();
+            } else {
+                if(i!==-1) document.getElementById("btn"+i).classList.add("wrong");
+                buttons.forEach((b)=>{if(b.innerText===questions[current].answers[correctIndex]) b.classList.add("correct");});
+            }
+            document.getElementById("score").innerText=score+" doğru";
+            current++;
+            setTimeout(()=>{if(current<questions.length) showQuestion(); else showResult();},1000);
+        }
+
+        function updateProgress(){
+            let pct = Math.floor((score/questions.length)*100);
+            document.getElementById("progressBar").style.width=pct+"%";
+        }
+
+        function showResult(){
+            let text="", badge="";
+            if(score>=9){text="Mükemmel! Gerçek bir İzmir bilgini."; badge="🏆";}
+            else if(score>=7){text="Çok iyi, İzmir’i iyi tanıyorsun."; badge="🥇";}
+            else if(score>=5){text="Orta seviye, biraz daha çalışabilirsin."; badge="🥈";}
+            else{text="Daha fazla bilgiye ihtiyaç var."; badge="🥉";}
+            document.getElementById("quiz").innerHTML="";
+            document.getElementById("result").innerHTML="Sonuç: "+score+"/10 "+badge+"<br>"+text;
+            document.getElementById("retryBtn").style.display="inline-block";
+            document.getElementById("progressBar").style.width="100%";
+        }
+
+        function restartGame(){
+            questions=allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
+            current=0; score=0; answered=false;
+            document.getElementById("retryBtn").style.display="none";
+            document.getElementById("score").innerText="0 doğru";
+            document.getElementById("progressBar").style.width="0%";
+            showQuestion();
+        }
+
+        function showConfetti(){
+            for(let i=0;i<20;i++){
+                let c=document.createElement("div");
+                c.className="confetti";
+                c.style.left=Math.random()*window.innerWidth+"px";
+                c.style.background=["#FFD700","#FF4500","#00BFFF","#FF69B4"][Math.floor(Math.random()*4)];
+                document.body.appendChild(c);
+                setTimeout(()=>{c.remove()},1500);
+            }
+        }
+
+        showQuestion();
+        </script>
+        `;
+    } else {
+        container.innerHTML = `<p>${number} numaralı oyun henüz yok.</p>`;
+    }
 }
-
-function startTimer(){
-  let t=timePerQuestion;
-  document.getElementById("time").innerText="Kalan süre: "+t+"s";
-  timer=setInterval(()=>{
-    t--;
-    document.getElementById("time").innerText="Kalan süre: "+t+"s";
-    if(t<=0){clearInterval(timer);answer(-1,-1,questions[current].correct);}
-  },1000);
-}
-
-function answer(i, originalIndex, correctIndex){
-  if(answered) return;
-  answered=true;
-  clearInterval(timer);
-  let buttons=document.querySelectorAll("#quiz button");
-  if(i!==-1 && originalIndex===correctIndex){
-    score++;
-    document.getElementById("btn"+i).classList.add("correct");
-    showConfetti();
-    updateProgress();
-  } else {
-    if(i!==-1) document.getElementById("btn"+i).classList.add("wrong");
-    buttons.forEach((b)=>{if(b.innerText===questions[current].answers[correctIndex]) b.classList.add("correct");});
-  }
-  document.getElementById("score").innerText=score+" doğru";
-  current++;
-  setTimeout(()=>{if(current<questions.length) showQuestion(); else showResult();},1000);
-}
-
-function updateProgress(){
-  let pct = Math.floor((score/questions.length)*100);
-  document.getElementById("progressBar").style.width=pct+"%";
-}
-
-function showResult(){
-  let text="", badge="";
-  if(score>=9){text="Mükemmel! Gerçek bir İzmir bilgini."; badge="🏆";}
-  else if(score>=7){text="Çok iyi, İzmir’i iyi tanıyorsun."; badge="🥇";}
-  else if(score>=5){text="Orta seviye, biraz daha çalışabilirsin."; badge="🥈";}
-  else{text="Daha fazla bilgiye ihtiyaç var."; badge="🥉";}
-  document.getElementById("quiz").innerHTML="";
-  document.getElementById("result").innerHTML="Sonuç: "+score+"/10 "+badge+"<br>"+text;
-  document.getElementById("retryBtn").style.display="inline-block";
-  document.getElementById("progressBar").style.width="100%";
-}
-
-function restartGame(){
-  questions=allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
-  current=0; score=0; answered=false;
-  document.getElementById("retryBtn").style.display="none";
-  document.getElementById("score").innerText="0 doğru";
-  document.getElementById("progressBar").style.width="0%";
-  showQuestion();
-}
-
-function showConfetti(){
-  for(let i=0;i<20;i++){
-    let c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=Math.random()*window.innerWidth+"px";
-    c.style.background=["#FFD700","#FF4500","#00BFFF","#FF69B4"][Math.floor(Math.random()*4)];
-    document.body.appendChild(c);
-    setTimeout(()=>{c.remove()},1500);
-  }
-}
-
-showQuestion();
 </script>
 </body>
 </html>
