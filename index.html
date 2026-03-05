@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Ne Kadar İzmirlisin?</title>
 <style>
-/* --- Body ve arka plan --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -19,7 +18,6 @@ body {
     overflow-x: hidden;
 }
 
-/* --- Overlay ile yazılar okunaklı --- */
 body::before {
     content: "";
     position: fixed;
@@ -29,157 +27,50 @@ body::before {
     z-index: -1;
 }
 
-/* --- Başlık animasyonu --- */
 h1 {
     color: #FFD700;
     font-size: 38px;
     text-shadow: 2px 2px 6px black;
     animation: bounce 1s ease infinite;
 }
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
+@keyframes bounce {0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); }}
 
-/* --- Quiz kutusu --- */
-#quiz {
-    background: rgba(0,0,0,0.6);
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 500px;
-    width: 90%;
-    margin-top: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-}
+#quiz { background: rgba(0,0,0,0.6); padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; margin-top: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
 
-/* --- Butonlar --- */
-button.answer {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 12px;
-    font-size: 18px;
-    cursor: pointer;
-    background: #222;
-    color: white;
-    transition: transform 0.2s, background 0.2s, color 0.2s;
-}
-button.answer:hover {
-    transform: scale(1.08);
-    background: #444;
-}
+button.answer { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; background: #222; color: white; transition: transform 0.2s, background 0.2s, color 0.2s; }
+button.answer:hover { transform: scale(1.08); background: #444; }
 
-/* --- Doğru / Yanlış --- */
-.correct {
-    background: linear-gradient(90deg, #00ff00, #66ff66) !important;
-    color: black;
-    animation: pop 0.3s;
-}
-.wrong {
-    background: linear-gradient(90deg, #ff4d4d, #ff0000) !important;
-    animation: shake 0.5s;
-}
+.correct { background: linear-gradient(90deg, #00ff00, #66ff66) !important; color: black; animation: pop 0.3s; }
+.wrong { background: linear-gradient(90deg, #ff4d4d, #ff0000) !important; animation: shake 0.5s; }
 
-/* --- Animasyonlar --- */
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}
-@keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
+@keyframes shake {0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); }}
+@keyframes pop {0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); }}
 
-/* --- Skor kutusu --- */
-#score {
-    margin-top: 15px;
-    font-size: 22px;
-    background: #FFD700;
-    color: black;
-    padding: 10px 25px;
-    border-radius: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-#score:hover {
-    box-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
-    transform: scale(1.02);
-}
+#score { margin-top: 15px; font-size: 22px; background: #FFD700; color: black; padding: 10px 25px; border-radius: 20px; transition: transform 0.3s, box-shadow 0.3s; }
+#score:hover { box-shadow: 0 0 15px rgba(255, 255, 0, 0.7); transform: scale(1.02); }
 
-/* --- Progress bar --- */
-#progressContainer {
-    width: 90%;
-    max-width: 500px;
-    height: 18px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 10px;
-    margin-top: 10px;
-    overflow: hidden;
-}
-#progressBar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, lime, green);
-    transition: width 0.6s ease-in-out;
-}
+#progressContainer { width: 90%; max-width: 500px; height: 18px; background: rgba(255,255,255,0.3); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+#progressBar { height: 100%; width: 0%; background: linear-gradient(90deg, lime, green); transition: width 0.6s ease-in-out; }
 
-/* --- Tekrar oynama butonu --- */
-#retryBtn {
-    margin-top: 20px;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 25px;
-    font-size: 18px;
-    cursor: pointer;
-    background: white;
-    color: black;
-    transition: transform 0.2s, background 0.2s;
-}
-#retryBtn:hover {
-    transform: scale(1.05);
-    background: #ffcc00;
-}
+#retryBtn { margin-top: 20px; padding: 12px 30px; border: none; border-radius: 25px; font-size: 18px; cursor: pointer; background: white; color: black; transition: transform 0.2s, background 0.2s; }
+#retryBtn:hover { transform: scale(1.05); background: #ffcc00; }
 
-/* --- Confetti --- */
-.confetti {
-    position: fixed;
-    width: 5px;
-    height: 5px;
-    top: 0;
-    opacity: 1;
-    pointer-events: none;
-    z-index: 9999;
-}
-@keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity:1; }
-    100% { transform: translateY(600px) rotate(360deg); opacity:0; }
-}
+.confetti { position: fixed; width: 5px; height: 5px; top: 0; opacity: 1; pointer-events: none; z-index: 9999; }
+@keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity:1; } 100% { transform: translateY(600px) rotate(360deg); opacity:0; } }
 </style>
 </head>
-
 <body>
 
 <h1>Ne Kadar İzmirlisin?</h1>
-
 <div id="score">0 doğru</div>
-
-<div id="progressContainer">
-    <div id="progressBar"></div>
-</div>
-
+<div id="progressContainer"><div id="progressBar"></div></div>
 <div id="quiz"></div>
-
 <div id="result"></div>
-
 <button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Oyna</button>
 
 <script>
-// --- 40 soruluk soru havuzu ---
-let allQuestions=[
+// --- 40 soruluk havuz ---
+let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
 {q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
@@ -226,13 +117,14 @@ let allQuestions=[
 ];
 
 // --- Oyun mantığı ---
-let questions=[];
-let current=0;
-let score=0;
+let questions = [];
+let current = 0;
+let score = 0;
 
 function startGame(){
-    // Soruları karıştır ve 10 soru seç
-    questions = [...allQuestions].sort(()=>Math.random()-0.5).slice(0,10);
+    // 40 soruyu karıştır ve 10 tane seç
+    let shuffled = [...allQuestions].sort(()=>Math.random()-0.5);
+    questions = shuffled.slice(0,10);
     current = 0;
     score = 0;
     document.getElementById("score").innerText = "0 doğru";
@@ -244,6 +136,7 @@ function startGame(){
 
 function showQuestion(){
     let q = questions[current];
+    // Cevapları karıştır
     let shuffledAnswers = [...q.answers].sort(()=>Math.random()-0.5);
     let correctIndex = shuffledAnswers.indexOf(q.answers[q.correct]);
 
@@ -323,7 +216,6 @@ function restartGame(){
     startGame();
 }
 
-// --- Confetti ---
 function confetti(){
     for(let i=0;i<40;i++){
         let c=document.createElement("div");
@@ -339,17 +231,12 @@ function confetti(){
         c.animate([
             { transform: `translate(0px,0px) rotate(${rotate}deg)` },
             { transform: `translate(${xShift}px,600px) rotate(${rotate+360}deg)` }
-        ], {
-            duration: duration,
-            easing: 'linear',
-            fill: 'forwards'
-        });
+        ], { duration: duration, easing: 'linear', fill: 'forwards' });
         document.body.appendChild(c);
         setTimeout(()=>c.remove(), duration);
     }
 }
 
-// --- Oyun başlasın ---
 window.onload = startGame;
 </script>
 
