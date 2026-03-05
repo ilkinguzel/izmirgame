@@ -58,14 +58,15 @@ button {
 </footer>
 
 <script>
+// 1 numaralı oyun kodunu tek dosya içinde çalıştıracak şekilde hazırlıyoruz
 function loadGame(number) {
     const container = document.getElementById('gameContainer');
     container.innerHTML = ""; // Önceki içeriği temizle
 
     if(number === 1) {
-        // 1 numaralı butona basınca oyun kodu buraya geliyor
-        container.innerHTML = `
-        <div style="width:100%;max-width:600px;">
+        // Oyun HTML içeriği
+        const gameHTML = `
+        <div style="width:100%;max-width:600px;color:black;">
             <h1>Gerçek İzmirli misin?</h1>
             <div id="score">0 doğru</div>
             <div id="progressContainer" style="width:100%;height:20px;background:rgba(255,255,255,0.2);border-radius:10px;margin-bottom:20px;overflow:hidden;">
@@ -75,8 +76,12 @@ function loadGame(number) {
             <div id="result"></div>
             <button id="retryBtn" style="display:none;padding:12px 30px;font-size:18px;border:none;border-radius:25px;cursor:pointer;background:#FFD700;color:black;font-weight:bold;">Tekrar Dene</button>
         </div>
+        `;
+        container.innerHTML = gameHTML;
 
-        <script>
+        // Dinamik script ekleme
+        const script = document.createElement('script');
+        script.innerHTML = `
         let allQuestions = [
             {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
             {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -170,18 +175,34 @@ function loadGame(number) {
                 c.className="confetti";
                 c.style.left=Math.random()*window.innerWidth+"px";
                 c.style.background=["#FFD700","#FF4500","#00BFFF","#FF69B4"][Math.floor(Math.random()*4)];
+                c.style.width="10px";
+                c.style.height="10px";
+                c.style.position="fixed";
+                c.style.top="0";
+                c.style.pointerEvents="none";
+                c.style.animation="fall 1s linear forwards";
                 document.body.appendChild(c);
                 setTimeout(()=>{c.remove()},1500);
             }
         }
 
         showQuestion();
-        </script>
         `;
+        document.body.appendChild(script);
+
     } else {
         container.innerHTML = `<p>${number} numaralı oyun henüz yok.</p>`;
     }
 }
 </script>
+
+<style>
+@keyframes fall {0%{transform: translateY(0) rotate(0deg);}100%{transform: translateY(600px) rotate(360deg);opacity:0;}}
+.correct { background: limegreen !important; color: black; animation: correctFlash 0.5s; }
+.wrong { background: red !important; color: white; animation: wrongFlash 0.5s; }
+@keyframes correctFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
+@keyframes wrongFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
+</style>
+
 </body>
 </html>
