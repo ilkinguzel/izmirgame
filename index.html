@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>35'i Bul</title>
+
+<style>
+body{
+background:black;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+h1{
+color:red;
+}
+
+#grid{
+display:grid;
+grid-template-columns:repeat(10,60px);
+gap:10px;
+justify-content:center;
+margin-top:30px;
+}
+
+.number{
+background:#111;
+padding:15px;
+cursor:pointer;
+border:1px solid #444;
+}
+
+.number:hover{
+background:#333;
+}
+
+#timer{
+font-size:24px;
+margin-top:20px;
+color:#ff4444;
+}
+</style>
+</head>
+
+<body>
+
+<h1>35'i Bul</h1>
+<p>İzmir ruhunu kanıtla 😎</p>
+
+<div id="timer">0.00 saniye</div>
+
+<div id="grid"></div>
+
+<script>
+
+let startTime = Date.now()
+let gameOver = false
+
+let numbers = []
+for(let i=1;i<=100;i++){
+numbers.push(i)
+}
+
+numbers.sort(()=>Math.random()-0.5)
+
+let grid = document.getElementById("grid")
+
+numbers.forEach(num=>{
+
+let div = document.createElement("div")
+div.className="number"
+div.innerText=num
+
+div.onclick=function(){
+
+if(gameOver) return
+
+if(num==35){
+
+gameOver=true
+
+let time=((Date.now()-startTime)/1000).toFixed(2)
+
+alert("🎉 35'i buldun!\nSüre: "+time+" saniye")
+
+}else{
+
+div.style.background="darkred"
+
+}
+
+}
+
+grid.appendChild(div)
+
+})
+
+</script>
+
+</body>
+</html>
