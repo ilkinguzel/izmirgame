@@ -17,7 +17,6 @@ body {
     position: relative;
     overflow-x: hidden;
 }
-
 body::before {
     content: "";
     position: fixed;
@@ -26,7 +25,6 @@ body::before {
     background: rgba(0,0,0,0.3);
     z-index: -1;
 }
-
 h1 {
     color: #FFD700;
     font-size: 38px;
@@ -71,60 +69,57 @@ button.answer:hover { transform: scale(1.08); background: #444; }
 <script>
 // --- 40 soruluk havuz ---
 let allQuestions = [
-{q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
-{q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
-{q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
-{q:"Kordon hangi ilçede?",answers:["Konak","Buca","Bornova","Karabağlar"],correct:0},
-{q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:2},
-{q:"İzmir'in meşhur sandviçi?",answers:["Kumru","Tost","Döner","Bazlama"],correct:0},
-{q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
-{q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
-{q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
-{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
-{q:"Alsancak hangi semtte?",answers:["Konak","Buca","Karşıyaka","Bornova"],correct:0},
-{q:"İzmir'in meşhur deniz kenarı sokağı?",answers:["Kordon","İstiklal","Bağdat","Atatürk"],correct:0},
-{q:"İzmir'in simgesi olan saat kulesi hangi yıl yapılmış?",answers:["1901","1907","1910","1923"],correct:1},
-{q:"Çeşme hangi ilçeye bağlı?",answers:["Karşıyaka","Konak","Çeşme","Bornova"],correct:2},
-{q:"İzmir'in meşhur tatlısı?",answers:["Baklava","Şambali","Künefe","Sütlaç"],correct:1},
-{q:"İzmir hangi denize kıyısı vardır?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
-{q:"İzmir'in sembolü olan kuş hangisidir?",answers:["Martı","Güvercin","Serçe","Karga"],correct:0},
-{q:"Karşıyaka'nın rengi hangi renktir?",answers:["Kırmızı","Siyah","Mavi","Yeşil"],correct:2},
-{q:"İzmir hangi ülkeye aittir?",answers:["Yunanistan","Türkiye","İtalya","Fransa"],correct:1},
-{q:"İzmir Limanı hangi ilçe sınırındadır?",answers:["Karşıyaka","Konak","Buca","Bornova"],correct:1},
-{q:"İzmir hangi yıl deprem yaşamıştır?",answers:["1925","1939","1970","1999"],correct:3},
-{q:"İzmir'in meşhur pazarı?",answers:["Kemeralti","Kapalıçarşı","Mısır Çarşısı","Grand Bazaar"],correct:0},
-{q:"İzmir'in en ünlü festivali?",answers:["İzmir Fuarı","İzmir Kısa Film Festivali","İzmir Uluslararası Fuarı","İzmir Jazz Festivali"],correct:2},
-{q:"İzmir hangi bölgede yer alır?",answers:["Marmara","Ege","Akdeniz","Karadeniz"],correct:1},
-{q:"İzmir'in meşhur sokak lezzeti?",answers:["Kokoreç","Gevrek","Tavuk Döner","Lahmacun"],correct:1},
-{q:"İzmir'in en uzun sahili hangi ilçededir?",answers:["Konak","Çeşme","Karşıyaka","Bostanlı"],correct:1},
-{q:"İzmir'in en ünlü yalı semti?",answers:["Alsancak","Karşıyaka","Göztepe","Bostanlı"],correct:0},
-{q:"İzmir hangi dağlarla çevrilidir?",answers:["Kazdağları","Bozdağlar","Toroslar","Uludağ"],correct:1},
-{q:"İzmir'in meşhur simidi hangi isimle anılır?",answers:["Simit","Gevrek","Açma","Poğaça"],correct:1},
-{q:"İzmir hangi liman kenti ile ünlüdür?",answers:["İstanbul","Mersin","İzmir","Trabzon"],correct:2},
-{q:"İzmir'in nüfusu yaklaşık kaçtır?",answers:["1 milyon","2 milyon","4 milyon","5 milyon"],correct:2},
-{q:"İzmir hangi tarihte işgalden kurtulmuştur?",answers:["1918","1920","1922","1923"],correct:2},
-{q:"İzmir'in en ünlü parkı?",answers:["Kültürpark","Göztepe Parkı","İnciraltı","Bostanlı"],correct:0},
-{q:"İzmir'in meşhur çarşısı?",answers:["Kemeralti","Kapalıçarşı","Kadıköy Çarşı","Karşıyaka Çarşı"],correct:0},
-{q:"İzmir'in ünlü köprüsü hangisidir?",answers:["Atatürk Köprüsü","Göztepe Köprüsü","Asansör","Bostanlı Köprüsü"],correct:2},
-{q:"İzmir'in meşhur kahvaltısı nedir?",answers:["Boyoz","Simit","Poğaça","Menemen"],correct:3},
-{q:"İzmir hangi körfeze sahiptir?",answers:["İzmit Körfezi","İzmir Körfezi","Marmara Körfezi","Fethiye Körfezi"],correct:1},
-{q:"İzmir hangi komşu illere sahiptir?",answers:["Aydın ve Manisa","İstanbul ve Bursa","Antalya ve Muğla","Balıkesir ve Çanakkale"],correct:0},
-{q:"İzmir'in tarihi limanı hangisidir?",answers:["Alsancak Limanı","Küçük Liman","Göztepe Limanı","Foça Limanı"],correct:1},
-{q:"İzmir'in meşhur semt pazarı hangisidir?",answers:["Kemeraltı","Alsancak","Bornova","Karşıyaka"],correct:0},
-{q:"İzmir'in sembol yapısı nedir?",answers:["Saat Kulesi","Asansör","Kordon","Konak"],correct:0},
-{q:"İzmir'de hangi spor kulübü meşhurdur?",answers:["Fenerbahçe","Beşiktaş","Göztepe","Galatasaray"],correct:2},
-{q:"İzmir'in ünlü tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kadayıf"],correct:0}
+  {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
+  {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
+  {q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
+  {q:"Kordon hangi ilçede?",answers:["Konak","Buca","Bornova","Karabağlar"],correct:0},
+  {q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:2},
+  {q:"İzmir'in meşhur sandviçi?",answers:["Kumru","Tost","Döner","Bazlama"],correct:0},
+  {q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
+  {q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
+  {q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
+  {q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
+  {q:"Alsancak hangi semtte?",answers:["Konak","Buca","Karşıyaka","Bornova"],correct:0},
+  {q:"İzmir'in meşhur deniz kenarı sokağı?",answers:["Kordon","İstiklal","Bağdat","Atatürk"],correct:0},
+  {q:"İzmir'in simgesi olan saat kulesi hangi yıl yapılmış?",answers:["1901","1907","1910","1923"],correct:1},
+  {q:"Çeşme hangi ilçeye bağlı?",answers:["Karşıyaka","Konak","Çeşme","Bornova"],correct:2},
+  {q:"İzmir'in meşhur tatlısı?",answers:["Baklava","Şambali","Künefe","Sütlaç"],correct:1},
+  {q:"İzmir hangi denize kıyısı vardır?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
+  {q:"İzmir'in sembolü olan kuş hangisidir?",answers:["Martı","Güvercin","Serçe","Karga"],correct:0},
+  {q:"Karşıyaka'nın rengi hangi renktir?",answers:["Kırmızı","Siyah","Mavi","Yeşil"],correct:2},
+  {q:"İzmir hangi ülkeye aittir?",answers:["Yunanistan","Türkiye","İtalya","Fransa"],correct:1},
+  {q:"İzmir Limanı hangi ilçe sınırındadır?",answers:["Karşıyaka","Konak","Buca","Bornova"],correct:1},
+  {q:"İzmir hangi yıl deprem yaşamıştır?",answers:["1925","1939","1970","1999"],correct:3},
+  {q:"İzmir'in meşhur pazarı?",answers:["Kemeralti","Kapalıçarşı","Mısır Çarşısı","Grand Bazaar"],correct:0},
+  {q:"İzmir'in en ünlü festivali?",answers:["İzmir Fuarı","İzmir Kısa Film Festivali","İzmir Uluslararası Fuarı","İzmir Jazz Festivali"],correct:2},
+  {q:"İzmir hangi bölgede yer alır?",answers:["Marmara","Ege","Akdeniz","Karadeniz"],correct:1},
+  {q:"İzmir'in meşhur sokak lezzeti?",answers:["Kokoreç","Gevrek","Tavuk Döner","Lahmacun"],correct:1},
+  {q:"İzmir'in en uzun sahili hangi ilçededir?",answers:["Konak","Çeşme","Karşıyaka","Bostanlı"],correct:1},
+  {q:"İzmir'in en ünlü yalı semti?",answers:["Alsancak","Karşıyaka","Göztepe","Bostanlı"],correct:0},
+  {q:"İzmir hangi dağlarla çevrilidir?",answers:["Kazdağları","Bozdağlar","Toroslar","Uludağ"],correct:1},
+  {q:"İzmir'in meşhur simidi hangi isimle anılır?",answers:["Simit","Gevrek","Açma","Poğaça"],correct:1},
+  {q:"İzmir hangi liman kenti ile ünlüdür?",answers:["İstanbul","Mersin","İzmir","Trabzon"],correct:2},
+  {q:"İzmir'in nüfusu yaklaşık kaçtır?",answers:["1 milyon","2 milyon","4 milyon","5 milyon"],correct:2},
+  {q:"İzmir hangi tarihte işgalden kurtulmuştur?",answers:["1918","1920","1922","1923"],correct:2},
+  {q:"İzmir'in en ünlü parkı?",answers:["Kültürpark","Göztepe Parkı","İnciraltı","Bostanlı"],correct:0},
+  {q:"İzmir'in meşhur çarşısı?",answers:["Kemeralti","Kapalıçarşı","Kadıköy Çarşı","Karşıyaka Çarşı"],correct:0},
+  {q:"İzmir'in ünlü köprüsü hangisidir?",answers:["Atatürk Köprüsü","Göztepe Köprüsü","Asansör","Bostanlı Köprüsü"],correct:2},
+  {q:"İzmir'in meşhur kahvaltısı nedir?",answers:["Boyoz","Simit","Poğaça","Menemen"],correct:3},
+  {q:"İzmir hangi körfeze sahiptir?",answers:["İzmit Körfezi","İzmir Körfezi","Marmara Körfezi","Fethiye Körfezi"],correct:1},
+  {q:"İzmir hangi komşu illere sahiptir?",answers:["Aydın ve Manisa","İstanbul ve Bursa","Antalya ve Muğla","Balıkesir ve Çanakkale"],correct:0},
+  {q:"İzmir'in tarihi limanı hangisidir?",answers:["Alsancak Limanı","Küçük Liman","Göztepe Limanı","Foça Limanı"],correct:1},
+  {q:"İzmir'in meşhur semt pazarı hangisidir?",answers:["Kemeraltı","Alsancak","Bornova","Karşıyaka"],correct:0},
+  {q:"İzmir'in sembol yapısı nedir?",answers:["Saat Kulesi","Asansör","Kordon","Konak"],correct:0},
+  {q:"İzmir'de hangi spor kulübü meşhurdur?",answers:["Fenerbahçe","Beşiktaş","Göztepe","Galatasaray"],correct:2},
+  {q:"İzmir'in ünlü tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kadayıf"],correct:0}
 ];
 
-// --- Oyun mantığı ---
-let questions = [];
+let remainingQuestions = [];
 let current = 0;
 let score = 0;
 
 function startGame(){
-    // 40 soruyu karıştır ve 10 tane seç
-    let shuffled = [...allQuestions].sort(()=>Math.random()-0.5);
-    questions = shuffled.slice(0,10);
+    remainingQuestions = [...allQuestions]; // tüm sorular
     current = 0;
     score = 0;
     document.getElementById("score").innerText = "0 doğru";
@@ -135,8 +130,14 @@ function startGame(){
 }
 
 function showQuestion(){
-    let q = questions[current];
-    // Cevapları karıştır
+    if(current >= 10 || remainingQuestions.length===0){
+        showResult();
+        return;
+    }
+
+    let idx = Math.floor(Math.random()*remainingQuestions.length);
+    let q = remainingQuestions.splice(idx,1)[0]; // seç ve havuzdan çıkar
+
     let shuffledAnswers = [...q.answers].sort(()=>Math.random()-0.5);
     let correctIndex = shuffledAnswers.indexOf(q.answers[q.correct]);
 
@@ -162,23 +163,11 @@ function answer(i, correctIndex){
 
     document.getElementById("score").innerText = score+" doğru";
     current++;
-    updateProgress();
+    document.getElementById("progressBar").style.width = (current/10*100)+"%";
 
-    setTimeout(()=>{
-        if(current<questions.length){
-            showQuestion();
-        } else {
-            showResult();
-        }
-    },1000);
+    setTimeout(showQuestion, 1000);
 }
 
-function updateProgress(){
-    let pct = (current/questions.length)*100;
-    document.getElementById("progressBar").style.width = pct+"%";
-}
-
-// --- Sonuç ---
 function showResult(){
     document.getElementById("quiz").innerHTML="";
     let text="", emoji="";
@@ -212,9 +201,7 @@ function showResult(){
     document.getElementById("retryBtn").style.display="block";
 }
 
-function restartGame(){
-    startGame();
-}
+function restartGame(){ startGame(); }
 
 function confetti(){
     for(let i=0;i<40;i++){
@@ -228,10 +215,7 @@ function confetti(){
         let duration = 800 + Math.random()*700;
         let rotate = Math.random()*360;
         let xShift = (Math.random()-0.5)*200;
-        c.animate([
-            { transform: `translate(0px,0px) rotate(${rotate}deg)` },
-            { transform: `translate(${xShift}px,600px) rotate(${rotate+360}deg)` }
-        ], { duration: duration, easing: 'linear', fill: 'forwards' });
+        c.animate([{ transform: `translate(0px,0px) rotate(${rotate}deg)` },{ transform: `translate(${xShift}px,600px) rotate(${rotate+360}deg)` }], { duration: duration, easing: 'linear', fill: 'forwards' });
         document.body.appendChild(c);
         setTimeout(()=>c.remove(), duration);
     }
@@ -239,6 +223,5 @@ function confetti(){
 
 window.onload = startGame;
 </script>
-
 </body>
 </html>
