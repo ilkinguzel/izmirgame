@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -6,69 +5,93 @@
 <title>Gerçek İzmirli misin?</title>
 
 <style>
-
 body{
-background:black;
-color:white;
-font-family:Arial;
-text-align:center;
-padding:40px;
+  font-family: Arial;
+  text-align:center;
+  padding:30px;
+  background: url('https://i.imgur.com/0YVwq0Z.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color:white;
+  overflow-x:hidden;
 }
 
 h1{
-color:#ff4444;
+  color:#FFD700;
+  text-shadow: 2px 2px 4px #000;
 }
 
 #score{
-font-size:22px;
-margin-bottom:20px;
+  font-size:22px;
+  margin-bottom:20px;
+  background: rgba(255, 223, 0, 0.7);
+  color: black;
+  display:inline-block;
+  padding:8px 16px;
+  border-radius: 20px;
 }
 
 button{
-padding:12px 22px;
-margin:8px;
-background:#222;
-color:white;
-border:1px solid #444;
-cursor:pointer;
-font-size:16px;
-width:200px;
+  padding:12px 24px;
+  margin:10px;
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+  font-size:16px;
+  transition: all 0.2s;
 }
 
 button:hover{
-background:#444;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #fff;
 }
 
 .correct{
-background:green !important;
+  background:limegreen !important;
+  color:black;
 }
 
 .wrong{
-background:darkred !important;
+  background:red !important;
+  color:white;
 }
 
 #result{
-margin-top:30px;
-font-size:24px;
-color:#ff4444;
+  margin-top:30px;
+  font-size:24px;
+  color:#FFD700;
+  text-shadow:1px 1px 2px #000;
+}
+
+.confetti{
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #FFD700;
+  top: 0;
+  left: 50%;
+  pointer-events:none;
+  animation: fall 1s linear forwards;
+}
+
+@keyframes fall{
+  0%{transform: translateY(0) rotate(0deg);}
+  100%{transform: translateY(600px) rotate(360deg); opacity:0;}
 }
 
 </style>
 </head>
-
 <body>
 
 <h1>Gerçek İzmirli misin?</h1>
 
 <div id="score">0/0</div>
-
 <div id="quiz"></div>
 <div id="result"></div>
 
 <script>
 
+// 100 soruluk havuz (örnek 15 soru, dilersen 100 yapabiliriz)
 let allQuestions = [
-
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
 {q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
@@ -78,8 +101,12 @@ let allQuestions = [
 {q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
 {q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
 {q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
-{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0}
-
+{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
+{q:"Çeşme neyiyle ünlü?",answers:["Rüzgar","Kayak","Orman","Şelale"],correct:0},
+{q:"Foça hangi özelliğiyle bilinir?",answers:["Foklar","Kaplıca","Kayak","Volkan"],correct:0},
+{q:"İzmir hangi bölgede?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
+{q:"Alsancak hangi ilçede?",answers:["Konak","Karşıyaka","Buca","Bornova"],correct:0},
+{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:0}
 ]
 
 allQuestions.sort(()=>Math.random()-0.5)
@@ -90,66 +117,58 @@ let score = 0
 let answered = false
 
 function showQuestion(){
-
-answered = false
-
-let q = questions[current]
-
-let html = "<h2>"+(current+1)+"/10 - "+q.q+"</h2>"
-
-q.answers.forEach((a,i)=>{
-html += `<button id="btn${i}" onclick="answer(${i})">${a}</button><br>`
-})
-
-document.getElementById("quiz").innerHTML = html
-
+  answered = false
+  let q = questions[current]
+  let html = "<h2>"+(current+1)+"/10 - "+q.q+"</h2>"
+  q.answers.forEach((a,i)=>{
+    html += `<button id="btn${i}" onclick="answer(${i})">${a}</button><br>`
+  })
+  document.getElementById("quiz").innerHTML = html
 }
 
 function answer(i){
-
-if(answered) return
-answered = true
-
-let correctIndex = questions[current].correct
-
-if(i == correctIndex){
-score++
-document.getElementById("btn"+i).classList.add("correct")
-}else{
-document.getElementById("btn"+i).classList.add("wrong")
-document.getElementById("btn"+correctIndex).classList.add("correct")
+  if(answered) return
+  answered = true
+  let correctIndex = questions[current].correct
+  if(i == correctIndex){
+    score++
+    document.getElementById("btn"+i).classList.add("correct")
+    showConfetti()
+  }else{
+    document.getElementById("btn"+i).classList.add("wrong")
+    document.getElementById("btn"+correctIndex).classList.add("correct")
+  }
+  current++
+  document.getElementById("score").innerText = score + "/" + current
+  setTimeout(()=>{
+    if(current < questions.length){
+      showQuestion()
+    }else{
+      let text=""
+      if(score>=9) text="🔥 Gerçek İzmirli!"
+      else if(score>=7) text="😎 İzmir ruhu var."
+      else if(score>=5) text="🙂 Yarı İzmirli."
+      else text="😂 İzmir'e biraz daha gelmen lazım."
+      document.getElementById("quiz").innerHTML=""
+      document.getElementById("result").innerHTML="Sonuç: "+score+"/10<br>"+text
+    }
+  },1000)
 }
 
-current++
-
-document.getElementById("score").innerText = score + "/" + current
-
-setTimeout(()=>{
-
-if(current < questions.length){
-showQuestion()
-}else{
-
-let text=""
-
-if(score>=9) text="🔥 Gerçek İzmirli!"
-else if(score>=7) text="😎 İzmir ruhu var."
-else if(score>=5) text="🙂 Yarı İzmirli."
-else text="😂 İzmir'e biraz daha gelmen lazım."
-
-document.getElementById("quiz").innerHTML=""
-document.getElementById("result").innerHTML="Sonuç: "+score+"/10<br>"+text
-
-}
-
-},1000)
-
+// Basit konfeti
+function showConfetti(){
+  for(let i=0;i<15;i++){
+    let c = document.createElement("div")
+    c.className="confetti"
+    c.style.left = Math.random()*window.innerWidth+"px"
+    c.style.background = ["#FFD700","#FF4500","#00BFFF","#FF69B4"][Math.floor(Math.random()*4)]
+    document.body.appendChild(c)
+    setTimeout(()=>{c.remove()},1200)
+  }
 }
 
 showQuestion()
 
 </script>
-
 </body>
 </html>
-```
