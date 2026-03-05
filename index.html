@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Gerçek İzmirli misin?</title>
 <style>
-/* Genel stil */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -112,19 +111,19 @@ h1 {
 <body>
 
 <h1>Gerçek İzmirli misin?</h1>
-<div id="score">0/0</div>
+<div id="score">0 doğru</div>
 <div id="quiz"></div>
 <div id="result"></div>
 <button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Dene</button>
 
 <script>
-// 50 soruluk havuz
+// Örnek 50 soruluk havuz, doğru cevaplar dengeli
 let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
 {q:"İzmir Saat Kulesi nerede?",answers:["Konak","Alsancak","Buca","Bornova"],correct:0},
 {q:"Kordon hangi ilçede?",answers:["Konak","Buca","Bornova","Karabağlar"],correct:0},
-{q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:1},
+{q:"Boyoz genelde neyle yenir?",answers:["Peynir","Yumurta","Zeytin","Domates"],correct:2},
 {q:"İzmir'in meşhur sandviçi?",answers:["Kumru","Tost","Döner","Bazlama"],correct:0},
 {q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
 {q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
@@ -133,11 +132,11 @@ let allQuestions = [
 {q:"Çeşme neyiyle ünlü?",answers:["Rüzgar","Kayak","Orman","Şelale"],correct:0},
 {q:"Foça hangi özelliğiyle bilinir?",answers:["Foklar","Kaplıca","Kayak","Volkan"],correct:0},
 {q:"Alsancak hangi ilçede?",answers:["Konak","Karşıyaka","Buca","Bornova"],correct:0},
-{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:0},
+{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:3},
 {q:"İzmir hangi bölgede?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
 {q:"İzmir’de meşhur ot festivali hangi ilçede?",answers:["Çeşme","Konak","Karşıyaka","Buca"],correct:0},
 {q:"İzmir’de hangi semtte teleferik yoktur?",answers:["Balçova","Bostanlı","Göztepe","Bornova"],correct:1},
-{q:"İzmir’in meşhur tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kazandibi"],correct:0},
+{q:"İzmir’in meşhur tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kazandibi"],correct:2},
 {q:"İzmir’de en uzun sahil?",answers:["Kordon","Bostanlı","Çeşme","Alsancak"],correct:0},
 {q:"İzmir hangi denize kıyısı vardır?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
 {q:"İzmir’in simgesi olan yapı?",answers:["Saat Kulesi","Asansör","Kordon","Kumru"],correct:0},
@@ -175,7 +174,6 @@ let allQuestions = [
 {q:"İzmir’in ünlü yemeği?",answers:["Boyoz","Kumru","Çöp Şiş","Hepsi"],correct:3}
 ];
 
-// Rastgele 10 soru seç
 function getRandomQuestions() {
   let shuffled = allQuestions.sort(() => Math.random() - 0.5);
   return shuffled.slice(0, 10);
@@ -210,7 +208,7 @@ function answer(i) {
     document.getElementById("btn"+correctIndex).classList.add("correct");
   }
   current++;
-  document.getElementById("score").innerText = score + "/" + current;
+  document.getElementById("score").innerText = score + " doğru";
   setTimeout(()=>{
     if(current < questions.length){
       showQuestion();
@@ -237,11 +235,10 @@ function restartGame() {
   current = 0;
   score = 0;
   document.getElementById("retryBtn").style.display = "none";
-  document.getElementById("score").innerText = "0/0";
+  document.getElementById("score").innerText = "0 doğru";
   showQuestion();
 }
 
-// Basit konfeti
 function showConfetti(){
   for(let i=0;i<15;i++){
     let c = document.createElement("div")
