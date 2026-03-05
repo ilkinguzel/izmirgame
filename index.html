@@ -9,7 +9,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 20px;
-  background: linear-gradient(to bottom, #1E90FF, #00BFFF); /* Sabit ve güvenli arka plan */
+  background: linear-gradient(to bottom, #1E90FF, #00BFFF);
   color: #fff;
   min-height: 100vh;
   display: flex;
@@ -17,7 +17,6 @@ body {
   align-items: center;
 }
 
-/* Başlık */
 h1 {
   font-size: 36px;
   color: #FFD700;
@@ -25,7 +24,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Skor kutusu */
 #score {
   font-size: 22px;
   background: rgba(255, 223, 0, 0.9);
@@ -36,7 +34,6 @@ h1 {
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
-/* İlerleme çubuğu */
 #progressContainer {
   width: 90%;
   max-width: 500px;
@@ -54,7 +51,6 @@ h1 {
   transition: width 0.5s;
 }
 
-/* Soru kartı */
 #quiz {
   background: rgba(0,0,0,0.6);
   padding: 25px 30px;
@@ -66,7 +62,6 @@ h1 {
   position: relative;
 }
 
-/* Butonlar */
 #quiz button {
   padding: 12px 20px;
   margin: 10px 0;
@@ -92,7 +87,6 @@ h1 {
 @keyframes correctFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
 @keyframes wrongFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
 
-/* Sonuç kutusu */
 #result {
   margin-top: 20px;
   font-size: 22px;
@@ -103,7 +97,6 @@ h1 {
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-/* Tekrar dene butonu */
 #retryBtn {
   margin-top: 15px;
   padding: 12px 30px;
@@ -123,7 +116,6 @@ h1 {
   box-shadow: 0 0 12px #fff;
 }
 
-/* Konfeti efekti */
 .confetti {
   position: fixed;
   width: 10px;
@@ -133,6 +125,7 @@ h1 {
   pointer-events:none;
   animation: fall 1s linear forwards;
 }
+
 @keyframes fall {0%{transform: translateY(0) rotate(0deg);}100%{transform: translateY(600px) rotate(360deg);opacity:0;}}
 </style>
 </head>
@@ -145,12 +138,8 @@ h1 {
 <div id="result"></div>
 <button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Dene</button>
 
-<!-- Ses efektleri -->
-<audio id="correctSound" src="https://www.myinstants.com/media/sounds/correct-answer.mp3"></audio>
-<audio id="wrongSound" src="https://www.myinstants.com/media/sounds/wrong-answer.mp3"></audio>
-
 <script>
-// 10 soruluk örnek havuz
+// Örnek sorular
 let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -166,6 +155,7 @@ let allQuestions = [
 
 let questions = allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
 let current=0, score=0, answered=false, timer=null, timePerQuestion=15;
+
 function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;}
 
 function showQuestion(){
@@ -200,13 +190,11 @@ function answer(i, originalIndex, correctIndex){
   if(i!==-1 && originalIndex===correctIndex){
     score++;
     document.getElementById("btn"+i).classList.add("correct");
-    document.getElementById("correctSound").play();
     showConfetti();
-    updateProgress(); // Doğru cevaba basınca bar artıyor
+    updateProgress();
   } else {
     if(i!==-1) document.getElementById("btn"+i).classList.add("wrong");
     buttons.forEach((b)=>{if(b.innerText===questions[current].answers[correctIndex]) b.classList.add("correct");});
-    document.getElementById("wrongSound").play();
   }
   document.getElementById("score").innerText=score+" doğru";
   current++;
