@@ -9,8 +9,7 @@ body{
   font-family: Arial;
   text-align:center;
   padding:30px;
-  background: url('https://i.imgur.com/0YVwq0Z.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background:#1E90FF; /* Tek renk arka plan */
   color:white;
   overflow-x:hidden;
 }
@@ -77,7 +76,6 @@ button:hover{
   0%{transform: translateY(0) rotate(0deg);}
   100%{transform: translateY(600px) rotate(360deg); opacity:0;}
 }
-
 </style>
 </head>
 <body>
@@ -89,8 +87,7 @@ button:hover{
 <div id="result"></div>
 
 <script>
-
-// 100 soruluk havuz (örnek 15 soru, dilersen 100 yapabiliriz)
+// 50 soruluk havuz (örnek sorular, istediğin kadar İzmir sorusu ekleyebilirsin)
 let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -104,9 +101,47 @@ let allQuestions = [
 {q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
 {q:"Çeşme neyiyle ünlü?",answers:["Rüzgar","Kayak","Orman","Şelale"],correct:0},
 {q:"Foça hangi özelliğiyle bilinir?",answers:["Foklar","Kaplıca","Kayak","Volkan"],correct:0},
-{q:"İzmir hangi bölgede?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
 {q:"Alsancak hangi ilçede?",answers:["Konak","Karşıyaka","Buca","Bornova"],correct:0},
-{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:0}
+{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:0},
+{q:"İzmir hangi bölgede?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
+{q:"İzmir’de meşhur ot festivali hangi ilçede?",answers:["Çeşme","Konak","Karşıyaka","Buca"],correct:0},
+{q:"İzmir’de hangi semtte teleferik yoktur?",answers:["Balçova","Bostanlı","Göztepe","Bornova"],correct:1},
+{q:"İzmir’in meşhur tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kazandibi"],correct:0},
+{q:"İzmir’de en uzun sahil?",answers:["Kordon","Bostanlı","Çeşme","Alsancak"],correct:0},
+{q:"İzmir hangi denize kıyısı vardır?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
+{q:"İzmir’in simgesi olan yapı?",answers:["Saat Kulesi","Asansör","Kordon","Kumru"],correct:0},
+{q:"İzmir hangi yıl deprem yaşamıştır?",answers:["1999","2020","1974","1928"],correct:2},
+{q:"İzmir’in meşhur balığı?",answers:["Levrek","Palamut","Çipura","İstavrit"],correct:3},
+{q:"İzmir’de meşhur çarşı?",answers:["Kemeraltı","Mısır Çarşısı","Grand Bazaar","Kapalıçarşı"],correct:0},
+{q:"İzmir’in meşhur festivali?",answers:["Enternasyonal Fuar","Film Festivali","Müzik Festivali","Çiçek Festivali"],correct:0},
+{q:"İzmir’in en bilinen tatlısı?",answers:["İncir Tatlısı","Şambali","Baklava","Künefe"],correct:1},
+{q:"İzmir’in meşhur caddesi?",answers:["Kıbrıs Şehitleri","İnciraltı","Alsancak","Cumhuriyet"],correct:2},
+{q:"İzmir’de ünlü park?",answers:["Kültürpark","Gençlik Parkı","Fuarpark","Yıldız Parkı"],correct:0},
+{q:"İzmir’deki asansör hangi amaçla yapılmış?",answers:["Taşımacılık","Turizm","Resmi İşler","Hiçbiri"],correct:0},
+{q:"İzmir’in meşhur rakısı?",answers:["Yeni Rakı","Tekirdağ Rakısı","Efe Rakı","Bütün Rakı"],correct:2},
+{q:"İzmir’in ünlü çarşısı nerede?",answers:["Kemeraltı","Alsancak","Bornova","Buca"],correct:0},
+{q:"İzmir’deki meşhur tatlıcı?",answers:["Hafız Mustafa","Sakızlı","Şambalici","Kumrucu"],correct:2},
+{q:"İzmir’in ünlü kahvesi?",answers:["Kahve Dünyası","Kahveci Hacıbaba","Starbucks","Günaydın"],correct:1},
+{q:"İzmir’de hangi semt deniz kenarında değil?",answers:["Konak","Karşıyaka","Bornova","Alsancak"],correct:2},
+{q:"İzmir’in en bilinen alışveriş merkezi?",answers:["Forum Bornova","Konak Pier","Mavişehir AVM","Kipa"],correct:0},
+{q:"İzmir’in meşhur köprüsü?",answers:["Göztepe Köprüsü","Konak Köprüsü","Asansör Köprüsü","Hiçbiri"],correct:1},
+{q:"İzmir’in simgesi olan meydan?",answers:["Konak Meydanı","Kordon","Alsancak Meydanı","Gündoğdu"],correct:0},
+{q:"İzmir’deki meşhur plaj?",answers:["Çeşme","Ilıca","Altınkum","Bostanlı"],correct:0},
+{q:"İzmir’in ünlü yemekleri?",answers:["Boyoz, Kumru, Çöp Şiş","Lahmacun, Döner, İskender","Kumpir, Hamburger, Pizza","Mantı, Börek, Kuzu Tandır"],correct:0},
+{q:"İzmir’in tarihi kalesi?",answers:["Kadifekale","Konak Kalesi","Asansör Kalesi","Hisar"],correct:0},
+{q:"İzmir’in ünlü alışveriş caddesi?",answers:["Kıbrıs Şehitleri","İnciraltı","Alsancak","Cumhuriyet"],correct:0},
+{q:"İzmir’in ünlü semti?",answers:["Alsancak","Karşıyaka","Bornova","Konak"],correct:0},
+{q:"İzmir’in ünlü parkı?",answers:["Kültürpark","Gençlik Parkı","Fuarpark","Yıldız Parkı"],correct:0},
+{q:"İzmir’in meşhur pazarı?",answers:["Kemeraltı","Çeşme Pazarı","Alsancak Pazarı","Bostanlı Pazarı"],correct:0},
+{q:"İzmir’in ünlü simgesi?",answers:["Saat Kulesi","Kordon","Asansör","Gündoğdu"],correct:0},
+{q:"İzmir’in tarihi semti?",answers:["Konak","Alsancak","Karşıyaka","Bostanlı"],correct:0},
+{q:"İzmir’in tarihi yapısı?",answers:["Kadifekale","Saat Kulesi","Asansör","Konak"],correct:0},
+{q:"İzmir’in ünlü tatlıcısı?",answers:["Şambalici","Hafız Mustafa","Kumrucu","Sakızlı"],correct:1},
+{q:"İzmir’in meşhur festivali?",answers:["Enternasyonal Fuar","Film Festivali","Çiçek Festivali","Müzik Festivali"],correct:0},
+{q:"İzmir’in meşhur plajı?",answers:["Çeşme","Ilıca","Altınkum","Bostanlı"],correct:0},
+{q:"İzmir’in ünlü caddesi?",answers:["Kıbrıs Şehitleri","İnciraltı","Alsancak","Cumhuriyet"],correct:2},
+{q:"İzmir’in meşhur semti?",answers:["Alsancak","Karşıyaka","Bornova","Konak"],correct:0},
+{q:"İzmir’in meşhur yemeği?",answers:["Boyoz","Kumru","Çöp Şiş","Hepsi"],correct:3}
 ]
 
 allQuestions.sort(()=>Math.random()-0.5)
@@ -155,7 +190,6 @@ function answer(i){
   },1000)
 }
 
-// Basit konfeti
 function showConfetti(){
   for(let i=0;i<15;i++){
     let c = document.createElement("div")
@@ -168,7 +202,6 @@ function showConfetti(){
 }
 
 showQuestion()
-
 </script>
 </body>
 </html>
