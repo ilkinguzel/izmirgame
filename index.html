@@ -14,7 +14,7 @@ body {
     align-items: center;
     min-height: 100vh;
     color: white;
-    background: linear-gradient(to bottom, #ff4d4d, #cc0000); /* kırmızı degrade */
+    background: linear-gradient(to bottom, #ff4d4d, #cc0000);
     position: relative;
     overflow-x: hidden;
 }
@@ -127,10 +127,6 @@ button.answer:hover {
     transition: width 0.6s ease-in-out;
 }
 
-/* --- Sonuç kutusu ---
-Artık JS içinde inline stil ile modern kutu gösteriliyor
-*/
-
 /* --- Tekrar oynama butonu --- */
 #retryBtn {
     margin-top: 20px;
@@ -215,27 +211,26 @@ function startGame(){
 function showQuestion(){
     let q=questions[current];
     let shuffledAnswers = [...q.answers].sort(()=>Math.random()-0.5);
-    let newCorrectIndex = shuffledAnswers.indexOf(q.answers[q.correct]);
-    q.correct = newCorrectIndex;
+    let correctIndex = shuffledAnswers.indexOf(q.answers[q.correct]); // doğru cevabın yeni index'i
+
     let html = "<h2>"+(current+1)+". Soru</h2><p>"+q.q+"</p>";
     shuffledAnswers.forEach((a,i)=>{
-        html+=`<button class="answer" onclick="answer(${i})">${a}</button>`;
+        html+=`<button class="answer" onclick="answer(${i}, ${correctIndex})">${a}</button>`;
     });
     document.getElementById("quiz").innerHTML = html;
 }
 
-function answer(i){
-    let q=questions[current];
+function answer(i, correctIndex){
     let buttons=document.querySelectorAll(".answer");
     buttons.forEach(b=>b.disabled=true);
 
-    if(i===q.correct){
+    if(i===correctIndex){
         score++;
         buttons[i].classList.add("correct");
         confetti();
-    }else{
+    } else {
         buttons[i].classList.add("wrong");
-        buttons[q.correct].classList.add("correct");
+        buttons[correctIndex].classList.add("correct");
     }
 
     document.getElementById("score").innerText=score+" doğru";
@@ -245,7 +240,7 @@ function answer(i){
     setTimeout(()=>{
         if(current<questions.length){
             showQuestion();
-        }else{
+        } else {
             showResult();
         }
     },1000);
@@ -341,7 +336,6 @@ function confetti(){
         let duration = 800 + Math.random()*700;
         let rotate = Math.random()*360;
         c.style.transform = `rotate(${rotate}deg)`;
-        c.style.animation = `fall ${duration}ms linear forwards`;
         let xShift = (Math.random()-0.5)*200;
         c.animate([
             { transform: `translate(0px,0px) rotate(${rotate}deg)` },
