@@ -2,61 +2,144 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Izmir Game</title>
+<title>Gerçek İzmirli misin?</title>
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; color:#fff; text-align:center; min-height:100vh; display:flex; flex-direction:column; align-items:center; background:#c0392b; transition:background 0.5s; }
-h1 { font-size:48px; margin:40px 0; text-shadow:2px 2px 6px #000; }
-#menu button { padding:20px 40px; font-size:24px; margin:15px; border:none; border-radius:20px; cursor:pointer; color:#fff; box-shadow:0 5px 15px rgba(0,0,0,0.4); transition:all 0.3s; }
-#menu button:hover { transform:scale(1.05); box-shadow:0 0 15px #fff; }
-#btn1 { background:#2980b9; } 
-#btn2 { background:#27ae60; } 
-#btn3 { background:#f39c12; } 
-#gameContainer { background: rgba(0,0,0,0.6); padding:25px 30px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.7); width:90%; max-width:600px; margin-bottom:20px; position:relative; }
-#quiz button { padding:12px 20px; margin:10px 0; width:100%; border:none; border-radius:15px; cursor:pointer; font-size:16px; transition: all 0.3s; background:#222; color:#fff; box-shadow:0 4px 8px rgba(0,0,0,0.3); }
-#quiz button:hover { transform:scale(1.05); box-shadow:0 0 12px #fff; }
-.correct { background:limegreen !important; color:black; animation: correctFlash 0.5s; }
-.wrong { background:red !important; color:white; animation: wrongFlash 0.5s; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(to bottom, #1E90FF, #00BFFF);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 36px;
+  color: #FFD700;
+  text-shadow: 2px 2px 4px #000;
+  margin-bottom: 20px;
+}
+
+#score {
+  font-size: 22px;
+  background: rgba(255, 223, 0, 0.9);
+  color: black;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+#progressContainer {
+  width: 90%;
+  max-width: 500px;
+  height: 20px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: limegreen;
+  transition: width 0.5s;
+}
+
+#quiz {
+  background: rgba(0,0,0,0.6);
+  padding: 25px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  width: 90%;
+  max-width: 500px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+#quiz button {
+  padding: 12px 20px;
+  margin: 10px 0;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+  background: #222;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#quiz button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+.correct { background: limegreen !important; color: black; animation: correctFlash 0.5s; }
+.wrong { background: red !important; color: white; animation: wrongFlash 0.5s; }
+
 @keyframes correctFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
 @keyframes wrongFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
-#progressContainer { width:90%; max-width:500px; height:20px; background:rgba(255,255,255,0.2); border-radius:10px; margin:15px auto; overflow:hidden;}
-#progressBar { height:100%; width:0%; background:limegreen; transition: width 0.5s; }
-#result { margin-top:20px; font-size:22px; background:rgba(255,223,0,0.95); color:black; padding:20px; border-radius:25px; box-shadow:0 0 20px rgba(0,0,0,0.5);}
-#retryBtn, #homeBtn { margin-top:15px; padding:12px 30px; font-size:18px; border:none; border-radius:25px; cursor:pointer; background:#FFD700; color:black; font-weight:bold; box-shadow:0 4px 8px rgba(0,0,0,0.3); transition:all 0.2s;}
-#retryBtn:hover, #homeBtn:hover { transform:scale(1.05); box-shadow:0 0 12px #fff; }
-.confetti { position: fixed; width:10px; height:10px; top:0; pointer-events:none; animation:fall 1s linear forwards; }
-@keyframes fall {0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(600px) rotate(360deg);opacity:0;}}
-#map { position: relative; width:100%; height:400px; background:#3498db; border-radius:15px; margin:20px auto; display:none;}
-.region { position:absolute; width:100px; height:50px; background: rgba(255,255,255,0.8); color:#000; display:flex; justify-content:center; align-items:center; border-radius:10px; cursor:grab; transition: all 0.3s; }
-.region.correct { background: limegreen; color:#000; }
-.region.wrong { background: red; color:#fff; }
-#infoCard { background:#16a085; padding:20px 25px; border-radius:20px; min-height:100px; font-size:20px; margin-bottom:15px; display:none; transition: all 0.5s; }
-#infoBtn { padding:12px 30px; font-size:18px; border:none; border-radius:25px; cursor:pointer; background:#f39c12; color:black; font-weight:bold; box-shadow:0 4px 8px rgba(0,0,0,0.3); display:none; transition:all 0.2s; }
-#infoBtn:hover { transform:scale(1.05); box-shadow:0 0 12px #fff; }
+
+#result {
+  margin-top: 20px;
+  font-size: 22px;
+  background: rgba(255, 223, 0, 0.95);
+  color: black;
+  padding: 20px 25px;
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#retryBtn {
+  margin-top: 15px;
+  padding: 12px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: #FFD700;
+  color: black;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.2s;
+}
+
+#retryBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #FFD700;
+  top: 0;
+  pointer-events:none;
+  animation: fall 1s linear forwards;
+}
+
+@keyframes fall {0%{transform: translateY(0) rotate(0deg);}100%{transform: translateY(600px) rotate(360deg);opacity:0;}}
 </style>
 </head>
 <body>
 
-<h1>Izmir Game</h1>
-
-<div id="menu">
-  <button id="btn1">1</button>
-  <button id="btn2">2</button>
-  <button id="btn3">3</button>
-</div>
-
-<div id="gameContainer" style="display:none;">
-  <div id="quiz"></div>
-  <div id="progressContainer"><div id="progressBar"></div></div>
-  <div id="result"></div>
-  <div id="map"></div>
-  <div id="infoCard"></div>
-  <button id="infoBtn">Bilgi değiştir</button>
-  <button id="retryBtn">Tekrar Dene</button>
-  <button id="homeBtn">Ana Sekme</button>
-</div>
+<h1>Gerçek İzmirli misin?</h1>
+<div id="score">0 doğru</div>
+<div id="progressContainer"><div id="progressBar"></div></div>
+<div id="quiz"></div>
+<div id="result"></div>
+<button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Dene</button>
 
 <script>
-// --- GLOBAL TANIMLAMALAR ---
+// Örnek sorular
 let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -69,80 +152,93 @@ let allQuestions = [
 {q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
 {q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0}
 ];
-let questions=[], current=0, score=0, answered=false, timePerQuestion=15, timer=null;
-const regions=["Konak","Karşıyaka","Bornova","Buca","Çeşme","Aliağa","Menemen","Gaziemir","Balçova","Bayraklı"];
-let infos=[]; for(let i=1;i<=100;i++){infos.push("İzmir hakkında rastgele bilgi #" + i);}
 
-// --- UTİLİTY ---
+let questions = allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
+let current=0, score=0, answered=false, timer=null, timePerQuestion=15;
+
 function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;}
-function showConfetti(){for(let i=0;i<20;i++){let c=document.createElement("div"); c.className="confetti"; c.style.left=Math.random()*window.innerWidth+"px"; c.style.background=["#FFD700","#FF4500","#00BFFF","#FF69B4"][Math.floor(Math.random()*4)]; document.body.appendChild(c); setTimeout(()=>{c.remove()},1500);}}
 
-// --- GÖSTERİM FONKSİYONLARI ---
-function showQuestion(){ answered=false; clearInterval(timer); 
-  let q=questions[current]; let options=q.answers.map((a,i)=>({text:a,index:i})); options=shuffleArray(options);
+function showQuestion(){
+  answered=false;
+  clearInterval(timer);
+  let q=questions[current];
+  let options=q.answers.map((a,i)=>({text:a,index:i}));
+  options=shuffleArray(options);
   let html="<h2>"+(current+1)+". Soru / 10 - "+q.q+"</h2>";
-  options.forEach((o,i)=>{html+=`<button onclick="answer(${i},${o.index},${q.correct})">${o.text}</button><br>`;});
-  html+=`<p id="time">Kalan süre: ${timePerQuestion}s</p>`; document.getElementById("quiz").innerHTML=html; startTimer();
-}
-function startTimer(){ let t=timePerQuestion; document.getElementById("time").innerText="Kalan süre: "+t+"s";
-timer=setInterval(()=>{t--; document.getElementById("time").innerText="Kalan süre: "+t+"s"; if(t<=0){clearInterval(timer); answer(-1,-1,questions[current].correct);}},1000);}
-
-// --- ANSWER GLOBAL ---
-window.answer=function(i,oIdx,cIdx){ let buttons=document.querySelectorAll("#quiz button"); if(answered) return; answered=true; clearInterval(timer);
-if(i!==-1 && oIdx===cIdx){score++; buttons[i].classList.add("correct"); showConfetti(); updateProgress();} 
-else{if(i!==-1) buttons[i].classList.add("wrong"); buttons.forEach(b=>{if(b.innerText===questions[current].answers[cIdx]) b.classList.add("correct");});}
-current++; setTimeout(()=>{if(current<questions.length) showQuestion(); else showQuizResult();},1000);}
-function updateProgress(){document.getElementById("progressBar").style.width=Math.floor((score/questions.length)*100)+"%";}
-function showQuizResult(){ let text="", badge=""; if(score>=9){text="Mükemmel! Gerçek bir İzmir bilgini."; badge="🏆";}
-else if(score>=7){text="Çok iyi, İzmir’i iyi tanıyorsun."; badge="🥇";}
-else if(score>=5){text="Orta seviye, biraz daha çalışabilirsin."; badge="🥈";}
-else{text="Daha fazla bilgiye ihtiyaç var."; badge="🥉";}
-document.getElementById("quiz").style.display="none"; document.getElementById("result").innerHTML="Sonuç: "+score+"/10 "+badge+"<br>"+text;
-document.getElementById("retryBtn").style.display="inline-block";}
-
-// --- START FUNCTIONS GLOBAL ---
-window.startQuiz = function(){ 
-  document.getElementById("menu").style.display="none"; document.getElementById("gameContainer").style.display="block";
-  document.getElementById("quiz").style.display="block"; document.getElementById("map").style.display="none"; document.getElementById("infoCard").style.display="none"; document.getElementById("infoBtn").style.display="none";
-  document.getElementById("progressContainer").style.display="block"; document.getElementById("progressBar").style.width="0%"; document.getElementById("retryBtn").style.display="none"; document.getElementById("result").innerHTML="";
-  document.getElementById("homeBtn").style.display="inline-block"; document.body.style.background="#c0392b";
-  questions = allQuestions.sort(()=>Math.random()-0.5).slice(0,10); current=0; score=0; showQuestion();
-}
-window.startMap = function(){
-  document.getElementById("menu").style.display="none"; document.getElementById("gameContainer").style.display="block";
-  document.getElementById("quiz").style.display="none"; document.getElementById("map").style.display="block"; document.getElementById("infoCard").style.display="none"; document.getElementById("infoBtn").style.display="none";
-  document.getElementById("progressContainer").style.display="block"; document.getElementById("progressBar").style.width="0%"; document.getElementById("result").innerHTML=""; document.getElementById("homeBtn").style.display="inline-block";
-  document.body.style.background="#27ae60"; let mapDiv=document.getElementById("map"); mapDiv.innerHTML=""; score=0;
-  regions.forEach((r,i)=>{
-    let reg=document.createElement("div"); reg.className="region"; reg.innerText=r; reg.style.left=(i*55% % 400)+"px"; reg.style.top=(Math.floor(i/4)*60)+"px"; reg.draggable=true;
-    reg.addEventListener("dragstart",(e)=>{e.dataTransfer.setData("text",r);});
-    reg.addEventListener("dragend",(e)=>{reg.style.left=reg.offsetLeft+"px"; reg.style.top=reg.offsetTop+"px";});
-    mapDiv.appendChild(reg);
-  }); updateProgress();
-}
-window.startInfo = function(){
-  document.getElementById("menu").style.display="none"; document.getElementById("gameContainer").style.display="block";
-  document.getElementById("quiz").style.display="none"; document.getElementById("map").style.display="none"; document.getElementById("infoCard").style.display="block"; document.getElementById("infoBtn").style.display="inline-block";
-  document.getElementById("progressContainer").style.display="none"; document.getElementById("result").innerHTML=""; document.getElementById("homeBtn").style.display="inline-block"; document.body.style.background="#f39c12";
-  showRandomInfo();
-}
-function showRandomInfo(){ const idx=Math.floor(Math.random()*infos.length); document.getElementById("infoCard").innerText=infos[idx];}
-document.getElementById("infoBtn").onclick=showRandomInfo;
-document.getElementById("btn1").onclick=startQuiz;
-document.getElementById("btn2").onclick=startMap;
-document.getElementById("btn3").onclick=startInfo;
-document.getElementById("retryBtn").onclick=startQuiz;
-document.getElementById("homeBtn").onclick = ()=>{
-  document.getElementById("quiz").style.display="none";
-  document.getElementById("map").style.display="none";
-  document.getElementById("infoCard").style.display="none";
-  document.getElementById("infoBtn").style.display="none";
-  document.getElementById("retryBtn").style.display="none";
-  document.getElementById("progressContainer").style.display="none";
+  options.forEach((o,i)=>{html+=`<button id="btn${i}" onclick="answer(${i},${o.index},${q.correct})">${o.text}</button><br>`;});
+  html+=`<p id="time">Kalan süre: ${timePerQuestion}s</p>`;
+  document.getElementById("quiz").innerHTML=html;
   document.getElementById("result").innerHTML="";
-  document.getElementById("menu").style.display="block";
-  document.body.style.background="#c0392b";
-};
+  startTimer();
+}
+
+function startTimer(){
+  let t=timePerQuestion;
+  document.getElementById("time").innerText="Kalan süre: "+t+"s";
+  timer=setInterval(()=>{
+    t--;
+    document.getElementById("time").innerText="Kalan süre: "+t+"s";
+    if(t<=0){clearInterval(timer);answer(-1,-1,questions[current].correct);}
+  },1000);
+}
+
+function answer(i, originalIndex, correctIndex){
+  if(answered) return;
+  answered=true;
+  clearInterval(timer);
+  let buttons=document.querySelectorAll("#quiz button");
+  if(i!==-1 && originalIndex===correctIndex){
+    score++;
+    document.getElementById("btn"+i).classList.add("correct");
+    showConfetti();
+    updateProgress();
+  } else {
+    if(i!==-1) document.getElementById("btn"+i).classList.add("wrong");
+    buttons.forEach((b)=>{if(b.innerText===questions[current].answers[correctIndex]) b.classList.add("correct");});
+  }
+  document.getElementById("score").innerText=score+" doğru";
+  current++;
+  setTimeout(()=>{if(current<questions.length) showQuestion(); else showResult();},1000);
+}
+
+function updateProgress(){
+  let pct = Math.floor((score/questions.length)*100);
+  document.getElementById("progressBar").style.width=pct+"%";
+}
+
+function showResult(){
+  let text="", badge="";
+  if(score>=9){text="Mükemmel! Gerçek bir İzmir bilgini."; badge="🏆";}
+  else if(score>=7){text="Çok iyi, İzmir’i iyi tanıyorsun."; badge="🥇";}
+  else if(score>=5){text="Orta seviye, biraz daha çalışabilirsin."; badge="🥈";}
+  else{text="Daha fazla bilgiye ihtiyaç var."; badge="🥉";}
+  document.getElementById("quiz").innerHTML="";
+  document.getElementById("result").innerHTML="Sonuç: "+score+"/10 "+badge+"<br>"+text;
+  document.getElementById("retryBtn").style.display="inline-block";
+  document.getElementById("progressBar").style.width="100%";
+}
+
+function restartGame(){
+  questions=allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
+  current=0; score=0; answered=false;
+  document.getElementById("retryBtn").style.display="none";
+  document.getElementById("score").innerText="0 doğru";
+  document.getElementById("progressBar").style.width="0%";
+  showQuestion();
+}
+
+function showConfetti(){
+  for(let i=0;i<20;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.background=["#FFD700","#FF4500","#00BFFF","#FF69B4"][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(()=>{c.remove()},1500);
+  }
+}
+
+showQuestion();
 </script>
 </body>
 </html>
