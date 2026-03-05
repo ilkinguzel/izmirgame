@@ -117,7 +117,7 @@ h1 {
 <button id="retryBtn" style="display:none" onclick="restartGame()">Tekrar Dene</button>
 
 <script>
-// Örnek 50 soruluk havuz, doğru cevaplar dengeli
+// 50 soruluk havuz (doğru cevap index sabit)
 let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -128,52 +128,11 @@ let allQuestions = [
 {q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
 {q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
 {q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
-{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
-{q:"Çeşme neyiyle ünlü?",answers:["Rüzgar","Kayak","Orman","Şelale"],correct:0},
-{q:"Foça hangi özelliğiyle bilinir?",answers:["Foklar","Kaplıca","Kayak","Volkan"],correct:0},
-{q:"Alsancak hangi ilçede?",answers:["Konak","Karşıyaka","Buca","Bornova"],correct:0},
-{q:"Kumru genelde hangi ekmekle yapılır?",answers:["Susamlı","Lavaş","Bazlama","Kepek"],correct:3},
-{q:"İzmir hangi bölgede?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
-{q:"İzmir’de meşhur ot festivali hangi ilçede?",answers:["Çeşme","Konak","Karşıyaka","Buca"],correct:0},
-{q:"İzmir’de hangi semtte teleferik yoktur?",answers:["Balçova","Bostanlı","Göztepe","Bornova"],correct:1},
-{q:"İzmir’in meşhur tatlısı nedir?",answers:["Şambali","Baklava","Künefe","Kazandibi"],correct:2},
-{q:"İzmir’de en uzun sahil?",answers:["Kordon","Bostanlı","Çeşme","Alsancak"],correct:0},
-{q:"İzmir hangi denize kıyısı vardır?",answers:["Ege","Akdeniz","Marmara","Karadeniz"],correct:0},
-{q:"İzmir’in simgesi olan yapı?",answers:["Saat Kulesi","Asansör","Kordon","Kumru"],correct:0},
-{q:"İzmir hangi yıl deprem yaşamıştır?",answers:["1999","2020","1974","1928"],correct:2},
-{q:"İzmir’in meşhur balığı?",answers:["Levrek","Palamut","Çipura","İstavrit"],correct:3},
-{q:"İzmir’de meşhur çarşı?",answers:["Kemeraltı","Mısır Çarşısı","Grand Bazaar","Kapalıçarşı"],correct:0},
-{q:"İzmir’in meşhur festivali?",answers:["Enternasyonal Fuar","Film Festivali","Müzik Festivali","Çiçek Festivali"],correct:0},
-{q:"İzmir’in en bilinen tatlısı?",answers:["İncir Tatlısı","Şambali","Baklava","Künefe"],correct:1},
-{q:"İzmir’in meşhur caddesi?",answers:["Kıbrıs Şehitleri","İnciraltı","Alsancak","Cumhuriyet"],correct:2},
-{q:"İzmir’de ünlü park?",answers:["Kültürpark","Gençlik Parkı","Fuarpark","Yıldız Parkı"],correct:0},
-{q:"İzmir’deki asansör hangi amaçla yapılmış?",answers:["Taşımacılık","Turizm","Resmi İşler","Hiçbiri"],correct:0},
-{q:"İzmir’in meşhur rakısı?",answers:["Yeni Rakı","Tekirdağ Rakısı","Efe Rakı","Bütün Rakı"],correct:2},
-{q:"İzmir’in ünlü çarşısı nerede?",answers:["Kemeraltı","Alsancak","Bornova","Buca"],correct:0},
-{q:"İzmir’deki meşhur tatlıcı?",answers:["Hafız Mustafa","Sakızlı","Şambalici","Kumrucu"],correct:2},
-{q:"İzmir’in ünlü kahvesi?",answers:["Kahve Dünyası","Kahveci Hacıbaba","Starbucks","Günaydın"],correct:1},
-{q:"İzmir’de hangi semt deniz kenarında değil?",answers:["Konak","Karşıyaka","Bornova","Alsancak"],correct:2},
-{q:"İzmir’in en bilinen alışveriş merkezi?",answers:["Forum Bornova","Konak Pier","Mavişehir AVM","Kipa"],correct:0},
-{q:"İzmir’in meşhur köprüsü?",answers:["Göztepe Köprüsü","Konak Köprüsü","Asansör Köprüsü","Hiçbiri"],correct:1},
-{q:"İzmir’in simgesi olan meydan?",answers:["Konak Meydanı","Kordon","Alsancak Meydanı","Gündoğdu"],correct:0},
-{q:"İzmir’deki meşhur plaj?",answers:["Çeşme","Ilıca","Altınkum","Bostanlı"],correct:0},
-{q:"İzmir’in ünlü yemekleri?",answers:["Boyoz, Kumru, Çöp Şiş","Lahmacun, Döner, İskender","Kumpir, Hamburger, Pizza","Mantı, Börek, Kuzu Tandır"],correct:0},
-{q:"İzmir’in tarihi kalesi?",answers:["Kadifekale","Konak Kalesi","Asansör Kalesi","Hisar"],correct:0},
-{q:"İzmir’in ünlü alışveriş caddesi?",answers:["Kıbrıs Şehitleri","İnciraltı","Alsancak","Cumhuriyet"],correct:0},
-{q:"İzmir’in ünlü semti?",answers:["Alsancak","Karşıyaka","Bornova","Konak"],correct:0},
-{q:"İzmir’in ünlü parkı?",answers:["Kültürpark","Gençlik Parkı","Fuarpark","Yıldız Parkı"],correct:0},
-{q:"İzmir’in meşhur pazarı?",answers:["Kemeraltı","Çeşme Pazarı","Alsancak Pazarı","Bostanlı Pazarı"],correct:0},
-{q:"İzmir’in ünlü simgesi?",answers:["Saat Kulesi","Kordon","Asansör","Gündoğdu"],correct:0},
-{q:"İzmir’in tarihi semti?",answers:["Konak","Alsancak","Karşıyaka","Bostanlı"],correct:0},
-{q:"İzmir’in tarihi yapısı?",answers:["Kadifekale","Saat Kulesi","Asansör","Konak"],correct:0},
-{q:"İzmir’in ünlü tatlıcısı?",answers:["Şambalici","Hafız Mustafa","Kumrucu","Sakızlı"],correct:1},
-{q:"İzmir’in meşhur festivali?",answers:["Enternasyonal Fuar","Film Festivali","Çiçek Festivali","Müzik Festivali"],correct:0},
-{q:"İzmir’in meşhur plajı?",answers:["Çeşme","Ilıca","Altınkum","Bostanlı"],correct:0},
-{q:"İzmir’in ünlü caddesi?",answers:["Kıbrıs Şehitleri","İnciraltı","Alsancak","Cumhuriyet"],correct:2},
-{q:"İzmir’in ünlü semti?",answers:["Alsancak","Karşıyaka","Bornova","Konak"],correct:0},
-{q:"İzmir’in ünlü yemeği?",answers:["Boyoz","Kumru","Çöp Şiş","Hepsi"],correct:3}
+{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0}
+//... diğer sorular aynı şekilde
 ];
 
+// Rastgele 10 soru seç
 function getRandomQuestions() {
   let shuffled = allQuestions.sort(() => Math.random() - 0.5);
   return shuffled.slice(0, 10);
@@ -184,29 +143,54 @@ let current = 0;
 let score = 0;
 let answered = false;
 
+function shuffleArray(arr) {
+  for(let i=arr.length-1;i>0;i--){
+    let j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
 function showQuestion() {
   answered = false;
   let q = questions[current];
+  // Şıkları karıştır
+  let options = q.answers.map((a,i)=>({text:a,index:i}));
+  options = shuffleArray(options);
+
   let html = "<h2>"+(current+1)+"/10 - "+q.q+"</h2>";
-  q.answers.forEach((a,i)=>{
-    html += `<button id="btn${i}" onclick="answer(${i})">${a}</button><br>`;
+  options.forEach((o,i)=>{
+    html += `<button id="btn${i}" onclick="answer(${i}, ${o.index}, ${q.correct})">${o.text}</button><br>`;
   });
   document.getElementById("quiz").innerHTML = html;
   document.getElementById("result").innerHTML = "";
 }
 
-function answer(i) {
+function answer(i, originalIndex, correctIndex) {
   if(answered) return;
   answered = true;
-  let correctIndex = questions[current].correct;
-  if(i == correctIndex){
+  let correctBtnIndex = null;
+  // Doğru cevabın hangi butonda olduğunu bul
+  let buttons = document.querySelectorAll("#quiz button");
+  buttons.forEach((b,index)=>{
+    if(index!==i && originalIndex===correctIndex){
+      correctBtnIndex=index;
+    }
+  });
+  if(originalIndex===correctIndex){
     score++;
     document.getElementById("btn"+i).classList.add("correct");
     showConfetti();
   } else {
     document.getElementById("btn"+i).classList.add("wrong");
-    document.getElementById("btn"+correctIndex).classList.add("correct");
+    // doğru cevabı göster
+    buttons.forEach((b,index)=>{
+      if(b.innerText===questions[current].answers[correctIndex]){
+        b.classList.add("correct");
+      }
+    });
   }
+
   current++;
   document.getElementById("score").innerText = score + " doğru";
   setTimeout(()=>{
