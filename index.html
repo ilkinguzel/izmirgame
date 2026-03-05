@@ -8,6 +8,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ff4d4d, #ff9999);
+    background-size: 400% 400%;
     color: white;
     text-align: center;
     margin: 0;
@@ -16,6 +17,14 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    animation: bgAnimation 15s ease infinite;
+}
+
+/* --- Arka plan animasyonu --- */
+@keyframes bgAnimation {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
 }
 
 /* --- Başlık animasyonu --- */
@@ -63,9 +72,25 @@ button.answer:hover {
 .correct {
     background: linear-gradient(90deg, #00ff00, #66ff66) !important;
     color: black;
+    animation: pop 0.3s;
 }
 .wrong {
     background: linear-gradient(90deg, #ff4d4d, #ff0000) !important;
+    animation: shake 0.5s;
+}
+
+/* --- Animasyonlar --- */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 /* --- Skor kutusu --- */
@@ -222,7 +247,7 @@ function answer(i){
     if(i===q.correct){
         score++;
         buttons[i].classList.add("correct");
-        confetti();  // yeni efekt
+        confetti();
     }else{
         buttons[i].classList.add("wrong");
         buttons[q.correct].classList.add("correct");
@@ -279,11 +304,10 @@ function confetti(){
         c.style.height = size + "px";
         c.style.left = Math.random()*window.innerWidth + "px";
         c.style.background = ["yellow","white","blue","pink","orange","lime"][Math.floor(Math.random()*6)];
-        let duration = 800 + Math.random()*700; // 0.8s - 1.5s
+        let duration = 800 + Math.random()*700;
         let rotate = Math.random()*360;
         c.style.transform = `rotate(${rotate}deg)`;
         c.style.animation = `fall ${duration}ms linear forwards`;
-        // x ekseninde rastgele kayma
         let xShift = (Math.random()-0.5)*200;
         c.animate([
             { transform: `translate(0px,0px) rotate(${rotate}deg)` },
