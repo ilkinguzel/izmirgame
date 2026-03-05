@@ -144,7 +144,6 @@ button.answer:hover {
     0% { transform: translateY(0) rotate(0deg); opacity:1; }
     100% { transform: translateY(600px) rotate(360deg); opacity:0; }
 }
-
 </style>
 </head>
 
@@ -176,17 +175,7 @@ let allQuestions=[
 {q:"Gündoğdu Meydanı nerede?",answers:["Karşıyaka","Konak","Bornova","Çeşme"],correct:1},
 {q:"Asansör hangi semtte?",answers:["Karataş","Buca","Bornova","Foça"],correct:0},
 {q:"Karşıyaka hangi yakada?",answers:["Kuzey","Güney","Doğu","Batı"],correct:0},
-{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0},
-{q:"İncirliova hangi bölgede?",answers:["Ege","Marmara","Akdeniz","Karadeniz"],correct:0},
-{q:"İzmir'in meşhur deniz ürünleri pazarı?",answers:["Kemeraltı","Balık Pazarı","Konak","Alsancak"],correct:1},
-{q:"İzmir'in meşhur çarşısı?",answers:["Kemeraltı","Alsancak","Konak","Bornova"],correct:0},
-{q:"İzmir hangi deniz kıyısında?",answers:["Ege","Marmara","Akdeniz","Karadeniz"],correct:0},
-{q:"İzmir’in tarihi limanı?",answers:["Alsancak Limanı","Konak Limanı","Karşıyaka Limanı","Foça Limanı"],correct:1},
-{q:"İzmir’in en popüler caddesi?",answers:["İnciraltı","Atatürk Caddesi","Kıbrıs Şehitleri","Gazi Bulvarı"],correct:1},
-{q:"İzmir’in meşhur kahvaltısı?",answers:["Boyoz ve çay","Simit ve çay","Kumru ve peynir","Gevrek ve zeytin"],correct:0},
-{q:"İzmir’in meşhur deniz festivali?",answers:["İEF","Çeşme Festivali","Kordon Festivali","Foça Festivali"],correct:0},
-{q:"İzmir’de meşhur çiçek pazarı?",answers:["Güzelyalı","Bostanlı","Kemeraltı","Alsancak"],correct:2},
-{q:"İzmir’in meşhur manzarası?",answers:["Kordon","Saat Kulesi","Asansör","Konak"],correct:0}
+{q:"İzmir Fuarı hangi parkta?",answers:["Kültürpark","Gençlik Parkı","Seğmenler","Yıldız"],correct:0}
 ];
 
 // --- Oyun mantığı ---
@@ -207,12 +196,20 @@ function startGame(){
 
 function showQuestion(){
     let q=questions[current];
-    let html="<h2>"+(current+1)+". Soru</h2>";
-    html+="<p>"+q.q+"</p>";
-    q.answers.forEach((a,i)=>{
+
+    // cevapları karıştır
+    let shuffledAnswers = [...q.answers].sort(()=>Math.random()-0.5);
+
+    // doğru cevabın yeni index'ini güncelle
+    let newCorrectIndex = shuffledAnswers.indexOf(q.answers[q.correct]);
+    q.correct = newCorrectIndex;
+
+    let html = "<h2>"+(current+1)+". Soru</h2><p>"+q.q+"</p>";
+    shuffledAnswers.forEach((a,i)=>{
         html+=`<button class="answer" onclick="answer(${i})">${a}</button>`;
     });
-    document.getElementById("quiz").innerHTML=html;
+
+    document.getElementById("quiz").innerHTML = html;
 }
 
 function answer(i){
