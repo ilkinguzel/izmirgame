@@ -9,8 +9,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 20px;
-  background: url('https://i.ibb.co/9wzqXn5/izmir-bg.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background: linear-gradient(to bottom, #1E90FF, #00BFFF); /* Sabit ve güvenli arka plan */
   color: #fff;
   min-height: 100vh;
   display: flex;
@@ -52,7 +51,7 @@ h1 {
   height: 100%;
   width: 0%;
   background: limegreen;
-  transition: width 0.5s, background 0.5s;
+  transition: width 0.5s;
 }
 
 /* Soru kartı */
@@ -87,17 +86,8 @@ h1 {
   box-shadow: 0 0 12px #fff;
 }
 
-.correct {
-  background: limegreen !important;
-  color: black;
-  animation: correctFlash 0.5s;
-}
-
-.wrong {
-  background: red !important;
-  color: white;
-  animation: wrongFlash 0.5s;
-}
+.correct { background: limegreen !important; color: black; animation: correctFlash 0.5s; }
+.wrong { background: red !important; color: white; animation: wrongFlash 0.5s; }
 
 @keyframes correctFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
 @keyframes wrongFlash {0%{transform: scale(1)}50%{transform: scale(1.1)}100%{transform: scale(1)}}
@@ -143,7 +133,6 @@ h1 {
   pointer-events:none;
   animation: fall 1s linear forwards;
 }
-
 @keyframes fall {0%{transform: translateY(0) rotate(0deg);}100%{transform: translateY(600px) rotate(360deg);opacity:0;}}
 </style>
 </head>
@@ -161,7 +150,7 @@ h1 {
 <audio id="wrongSound" src="https://www.myinstants.com/media/sounds/wrong-answer.mp3"></audio>
 
 <script>
-// 50 soruluk havuz (örnek)
+// 10 soruluk örnek havuz
 let allQuestions = [
 {q:"35 plaka hangi şehir?",answers:["İstanbul","İzmir","Antalya","Bursa"],correct:1},
 {q:"İzmir'de simide ne denir?",answers:["Simit","Gevrek","Halka","Çıtır"],correct:1},
@@ -177,7 +166,6 @@ let allQuestions = [
 
 let questions = allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
 let current=0, score=0, answered=false, timer=null, timePerQuestion=15;
-
 function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr;}
 
 function showQuestion(){
@@ -186,10 +174,8 @@ function showQuestion(){
   let q=questions[current];
   let options=q.answers.map((a,i)=>({text:a,index:i}));
   options=shuffleArray(options);
-  let html="<h2>"+(current+1)+"/10 - "+q.q+"</h2>";
-  options.forEach((o,i)=>{
-    html+=`<button id="btn${i}" onclick="answer(${i},${o.index},${q.correct})">${o.text}</button><br>`;
-  });
+  let html="<h2>"+(current+1)+". Soru / 10 - "+q.q+"</h2>";
+  options.forEach((o,i)=>{html+=`<button id="btn${i}" onclick="answer(${i},${o.index},${q.correct})">${o.text}</button><br>`;});
   html+=`<p id="time">Kalan süre: ${timePerQuestion}s</p>`;
   document.getElementById("quiz").innerHTML=html;
   document.getElementById("result").innerHTML="";
@@ -197,15 +183,12 @@ function showQuestion(){
 }
 
 function startTimer(){
-  let t = timePerQuestion;
+  let t=timePerQuestion;
   document.getElementById("time").innerText="Kalan süre: "+t+"s";
   timer=setInterval(()=>{
     t--;
     document.getElementById("time").innerText="Kalan süre: "+t+"s";
-    if(t<=0){
-      clearInterval(timer);
-      answer(-1,-1,questions[current].correct);
-    }
+    if(t<=0){clearInterval(timer);answer(-1,-1,questions[current].correct);}
   },1000);
 }
 
@@ -219,22 +202,20 @@ function answer(i, originalIndex, correctIndex){
     document.getElementById("btn"+i).classList.add("correct");
     document.getElementById("correctSound").play();
     showConfetti();
+    updateProgress(); // Doğru cevaba basınca bar artıyor
   } else {
     if(i!==-1) document.getElementById("btn"+i).classList.add("wrong");
     buttons.forEach((b)=>{if(b.innerText===questions[current].answers[correctIndex]) b.classList.add("correct");});
     document.getElementById("wrongSound").play();
   }
-  current++;
-  updateProgress();
   document.getElementById("score").innerText=score+" doğru";
+  current++;
   setTimeout(()=>{if(current<questions.length) showQuestion(); else showResult();},1000);
 }
 
 function updateProgress(){
-  let pct=Math.floor((current/questions.length)*100);
-  let bar=document.getElementById("progressBar");
-  bar.style.width=pct+"%";
-  bar.style.background=(pct<50?"red":pct<80?"orange":"limegreen");
+  let pct = Math.floor((score/questions.length)*100);
+  document.getElementById("progressBar").style.width=pct+"%";
 }
 
 function showResult(){
