@@ -4,27 +4,29 @@
 <meta charset="UTF-8">
 <title>Gerçek İzmirli misin?</title>
 <style>
-/* --- Body ve genel tema --- */
+/* --- Body ve arka plan resmi --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ff4d4d, #ff9999);
-    background-size: 400% 400%;
-    color: white;
-    text-align: center;
     margin: 0;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    animation: bgAnimation 15s ease infinite;
+    color: white;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/f/fd/Izmir_Kordon.jpg') center/cover no-repeat;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* --- Arka plan animasyonu --- */
-@keyframes bgAnimation {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+/* --- Overlay ile yazılar okunaklı --- */
+body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.4);
+    z-index: -1;
 }
 
 /* --- Başlık animasyonu --- */
@@ -223,19 +225,13 @@ function startGame(){
 
 function showQuestion(){
     let q=questions[current];
-
-    // cevapları karıştır
     let shuffledAnswers = [...q.answers].sort(()=>Math.random()-0.5);
-
-    // doğru cevabın yeni index'ini güncelle
     let newCorrectIndex = shuffledAnswers.indexOf(q.answers[q.correct]);
     q.correct = newCorrectIndex;
-
     let html = "<h2>"+(current+1)+". Soru</h2><p>"+q.q+"</p>";
     shuffledAnswers.forEach((a,i)=>{
         html+=`<button class="answer" onclick="answer(${i})">${a}</button>`;
     });
-
     document.getElementById("quiz").innerHTML = html;
 }
 
@@ -294,7 +290,7 @@ function restartGame(){
     startGame();
 }
 
-// --- Yeni confetti efekti ---
+// --- Confetti efekti ---
 function confetti(){
     for(let i=0;i<40;i++){
         let c=document.createElement("div");
