@@ -124,7 +124,7 @@ button.answer:hover {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, lime, green);
-    transition: width 0.6s ease-in-out;
+    transition: width 0.6s ease-in-out, background 0.3s;
 }
 
 /* --- Tekrar oynama butonu --- */
@@ -205,6 +205,7 @@ function startGame(){
     document.getElementById("score").innerText="0 doğru";
     document.getElementById("result").innerHTML="";
     document.getElementById("progressBar").style.width="0%";
+    document.getElementById("progressBar").style.background="linear-gradient(90deg, lime, green)";
     document.getElementById("retryBtn").style.display="none";
 }
 
@@ -224,18 +225,21 @@ function answer(i, correctIndex){
     let buttons=document.querySelectorAll(".answer");
     buttons.forEach(b=>b.disabled=true);
 
+    let correct=false;
     if(i===correctIndex){
         score++;
         buttons[i].classList.add("correct");
         confetti();
+        correct=true;
     } else {
         buttons[i].classList.add("wrong");
         buttons[correctIndex].classList.add("correct");
+        correct=false;
     }
 
     document.getElementById("score").innerText=score+" doğru";
     current++;
-    updateProgress();
+    updateProgress(correct);
 
     setTimeout(()=>{
         if(current<questions.length){
@@ -246,9 +250,16 @@ function answer(i, correctIndex){
     },1000);
 }
 
-function updateProgress(){
+function updateProgress(correct){
     let pct=(current/questions.length)*100;
-    document.getElementById("progressBar").style.width=pct+"%";
+    let bar=document.getElementById("progressBar");
+    bar.style.width=pct+"%";
+
+    if(correct===true){
+        bar.style.background="linear-gradient(90deg, #00ff00, #66ff66)";
+    } else if(correct===false){
+        bar.style.background="linear-gradient(90deg, #ff4d4d, #ff0000)";
+    }
 }
 
 // --- Yenilenmiş Sonuç Fonksiyonu ---
